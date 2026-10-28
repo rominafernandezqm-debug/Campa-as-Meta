@@ -1,0 +1,348 @@
+<title>Plan Clientes en Piloto Automático</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..900&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* Layout: el plan como un programa de entrenamiento — bloques apilados, semanas como sesiones, números en mono */
+  :root {
+    --bg: #f3f5f4;
+    --surface: #ffffff;
+    --ink: #0f2a2c;
+    --muted: #556a6b;
+    --line: #dbe3e1;
+    --accent: #e8572a;
+    --accent-ink: #b8401a;
+    --accent-soft: #fde9e1;
+    --teal: #1d6b67;
+    --teal-soft: #e0efed;
+    --good: #2f7d4f;
+    --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+    --body: "Figtree", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1617; --surface: #162123; --ink: #eef3f2; --muted: #9db0b0; --line: #26393a;
+      --accent: #f2703f; --accent-ink: #ff9a72; --accent-soft: #3a2017;
+      --teal: #6cc2bb; --teal-soft: #173230; --good: #6fcf93; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1617; --surface: #162123; --ink: #eef3f2; --muted: #9db0b0; --line: #26393a;
+    --accent: #f2703f; --accent-ink: #ff9a72; --accent-soft: #3a2017;
+    --teal: #6cc2bb; --teal-soft: #173230; --good: #6fcf93; color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 56px; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; line-height: 1.08; }
+  h2 { font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: clamp(1.6rem, 3.6vw, 2.2rem); text-transform: uppercase; letter-spacing: .01em; }
+  p { margin: 0; }
+  .muted { color: var(--muted); }
+  .label { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  section { display: grid; gap: 20px; }
+  .sec-head { display: grid; gap: 6px; }
+  .sec-head .label { color: var(--accent-ink); }
+  .grid { display: grid; gap: 16px; }
+  .grid > * { min-width: 0; }
+
+  /* Hero */
+  .hero { display: grid; gap: 28px; border-bottom: 3px solid var(--ink); padding-bottom: 36px; }
+  .hero h1 { font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: clamp(2.6rem, 8vw, 5.2rem); text-transform: uppercase; letter-spacing: -.01em; line-height: .95; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .pitch { font-size: 1.15rem; max-width: 62ch; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+  .stat { padding: 18px 20px; display: grid; gap: 4px; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: 0; }
+  .stat b { font-family: var(--display); font-stretch: 80%; font-weight: 800; font-size: 2rem; line-height: 1; }
+  .stat small { color: var(--muted); font-size: .82rem; }
+
+  /* Por qué tú */
+  .match { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .match div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 8px; }
+  .chip { justify-self: start; background: var(--teal-soft); color: var(--teal); font-weight: 700; font-size: .82rem; padding: 4px 10px; border-radius: 999px; }
+
+  /* Persona */
+  .persona { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .persona .who { background: var(--ink); color: var(--bg); padding: 28px; display: grid; gap: 12px; align-content: start; }
+  .persona .who .avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-family: var(--display); font-weight: 900; font-size: 1.6rem; color: #fff; }
+  .persona .who h3 { font-family: var(--display); font-stretch: 85%; font-size: 1.6rem; font-weight: 800; }
+  .persona .who p { opacity: .8; }
+  .persona .what { padding: 24px 28px; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .persona ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+
+  /* Escalera */
+  .ladder { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: end; min-height: 300px; }
+  .rung { display: grid; gap: 8px; align-content: end; }
+  .rung .bar { background: var(--teal-soft); border-radius: 10px 10px 4px 4px; display: grid; align-content: start; padding: 10px; min-height: 44px; }
+  .rung .bar .num { font-weight: 500; font-size: 1.05rem; color: var(--teal); }
+  .rung.main .bar { background: var(--accent); }
+  .rung.main .bar .num { color: #fff; }
+  .rung h3 { font-size: .95rem; font-weight: 700; line-height: 1.25; }
+  .rung p { font-size: .82rem; color: var(--muted); }
+  .tagline { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: .75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .tag.passive { border-color: transparent; background: var(--teal-soft); color: var(--teal); }
+  .tag.active { border-color: transparent; background: var(--accent-soft); color: var(--accent-ink); }
+
+  /* Kit */
+  .kit { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+  .kit div { padding: 14px 0 14px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 8px; padding-right: 16px; }
+  .kit .num { color: var(--accent-ink); }
+
+  /* Embudo */
+  .funnel { display: grid; gap: 10px; }
+  .frow { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; align-items: center; }
+  .frow .lbl { font-weight: 600; font-size: .92rem; }
+  .ftrack { position: relative; height: 40px; }
+  .fbar { height: 100%; border-radius: 8px; background: var(--teal); display: flex; align-items: center; padding: 0 12px; color: #fff; font-family: var(--mono); font-size: .9rem; white-space: nowrap; min-width: max-content; }
+  .fbar.range { background: linear-gradient(90deg, var(--accent) 0 var(--lo), color-mix(in srgb, var(--accent) 45%, transparent) var(--lo) 100%); }
+  .fbar.cost { background: var(--muted); }
+  .note { font-size: .85rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; }
+
+  /* Plan 30 días */
+  .weeks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .week { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 12px; align-content: start; }
+  .week header { display: grid; gap: 2px; }
+  .week header .label { color: var(--accent-ink); }
+  .week h3 { font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 1.25rem; text-transform: uppercase; }
+  .tasks { display: grid; gap: 8px; }
+  .task { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; align-items: start; font-size: .9rem; cursor: pointer; }
+  .task input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--good); cursor: pointer; }
+  .task input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .goal { margin-top: 4px; background: var(--teal-soft); color: var(--teal); border-radius: 8px; padding: 8px 10px; font-size: .85rem; font-weight: 600; }
+  .progress { display: flex; align-items: center; gap: 12px; }
+  .ptrack { flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .pfill { height: 100%; width: 0; background: var(--good); transition: width .3s; }
+  @media (prefers-reduced-motion: reduce) { .pfill { transition: none; } }
+
+  /* Herramientas + métricas */
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr.total td { font-weight: 700; background: var(--accent-soft); }
+
+  /* Riesgos */
+  .risks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .risk { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
+  .risk b { font-size: .95rem; }
+  .risk p { font-size: .88rem; color: var(--muted); }
+
+  footer { font-size: .82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+
+  a:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  @media (max-width: 860px) {
+    .weeks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .two, .persona { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .weeks { grid-template-columns: minmax(0, 1fr); }
+    .ladder { grid-template-columns: minmax(0, 1fr); min-height: 0; align-items: stretch; }
+    .rung { grid-template-columns: 96px minmax(0, 1fr); align-items: center; }
+    .rung .bar { height: auto !important; min-height: 44px; border-radius: 10px; }
+    .frow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .stat { border-right: 0; border-bottom: 1px solid var(--line); }
+    .stat:last-child { border-bottom: 0; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="label">Plan de negocio · Producto digital</div>
+    <h1>Clientes en <em>piloto automático</em></h1>
+    <p class="pitch">Un kit digital para que <strong>entrenadores personales y coaches de bienestar</strong> consigan clientes con Meta Ads e IA, sin contratar una agencia. Se crea una vez y se vende en automático.</p>
+    <div class="stats">
+      <div class="stat"><span class="label">Producto principal</span><b class="num">37 USD</b><small>Precio de lanzamiento, luego 47 USD</small></div>
+      <div class="stat"><span class="label">Inversión inicial</span><b class="num">150–350</b><small>USD en anuncios de prueba; herramientas casi gratis</small></div>
+      <div class="stat"><span class="label">Tu tiempo</span><b class="num">5–15 h</b><small>por semana el primer mes; 3–5 h después</small></div>
+      <div class="stat"><span class="label">Meta a 6 meses</span><b class="num">1–2k</b><small>USD al mes. Estimación, no promesa</small></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="label">Tu ventaja</span><h2>Por qué esta idea encaja contigo</h2></div>
+    <div class="match">
+      <div><span class="chip">Meta y Google Ads</span><p>Es el contenido del kit: enseñas lo que ya sabes hacer.</p></div>
+      <div><span class="chip">Estrategia y Analytics</span><p>Creas la hoja de métricas y optimizas tus propias ventas con datos.</p></div>
+      <div><span class="chip">Claude e IA</span><p>Los prompts listos para usar te diferencian de los cursos de anuncios genéricos.</p></div>
+      <div><span class="chip">Fitness y salud</span><p>Conoces el nicho y hablas el mismo idioma que tus clientes.</p></div>
+      <div><span class="chip">Desarrollo personal</span><p>Un tono cercano y motivador para tu contenido y tus emails.</p></div>
+      <div><span class="chip">Sabes vender con anuncios</span><p>Puedes promocionar tu propio producto mejor que casi cualquier competidor.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="label">A quién le vendes</span><h2>Tu cliente ideal</h2></div>
+    <div class="persona">
+      <div class="who">
+        <div class="avatar">C</div>
+        <h3>Caro, entrenadora personal</h3>
+        <p>28 a 40 años. Da clases presenciales u online. Tiene Instagram, pero sus publicaciones no le traen clientes.</p>
+        <p>También: nutricionistas, instructoras de yoga y pilates, dueños de gimnasios pequeños.</p>
+      </div>
+      <div class="what">
+        <div><span class="label">Lo que le duele</span>
+          <ul><li>Probó "promocionar publicación" y perdió dinero</li><li>El administrador de anuncios le da miedo</li><li>Una agencia le cuesta 300–1.000 USD al mes</li></ul></div>
+        <div><span class="label">Lo que quiere</span>
+          <ul><li>Agenda llena sin vivir haciendo contenido</li><li>Un sistema simple que pueda repetir</li><li>Dejar de depender del algoritmo</li></ul></div>
+        <div><span class="label">Dónde está</span>
+          <ul><li>Instagram y TikTok</li><li>Grupos de Facebook de entrenadores</li><li>Comunidades de certificaciones fitness</li></ul></div>
+        <div><span class="label">Cuánto puede pagar</span>
+          <ul><li>20 a 100 USD por algo que le ahorre tiempo y errores</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="label">La oferta</span><h2>Escalera de valor</h2><p class="muted">El orden en que tu cliente avanza. La altura de cada barra es proporcional al precio.</p></div>
+    <div class="ladder">
+      <div class="rung"><div class="bar" style="height:44px"><span class="num">0 USD</span></div><div><h3>Regalo: 10 prompts</h3><p>PDF gratis a cambio del email</p></div></div>
+      <div class="rung main"><div class="bar" style="height:74px"><span class="num">37 USD</span></div><div><h3>Kit principal</h3><p>Tu producto estrella</p></div></div>
+      <div class="rung"><div class="bar" style="height:44px"><span class="num">+17 USD</span></div><div><h3>30 plantillas de Canva</h3><p>Extra al pagar (order bump)</p></div></div>
+      <div class="rung"><div class="bar" style="height:194px"><span class="num">97 USD</span></div><div><h3>Mini curso en video</h3><p>Upsell después de comprar</p></div></div>
+      <div class="rung"><div class="bar" style="height:300px"><span class="num">150 USD</span></div><div><h3>Revisión 1 a 1</h3><p>Opcional, cupos limitados</p></div></div>
+    </div>
+    <div class="tagline"><span class="tag passive">Pasivo: los 4 primeros</span><span class="tag active">Activo: la revisión 1 a 1</span></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="label">Qué recibe quien compra</span><h2>Contenido del kit</h2></div>
+    <div class="kit">
+      <div><span class="num">01</span><span><strong>Guía de inicio</strong> (PDF, ~25 páginas): Business Manager, píxel y cuenta sin errores</span></div>
+      <div><span class="num">02</span><span><strong>3 campañas</strong> para copiar: leads, WhatsApp y retargeting</span></div>
+      <div><span class="num">03</span><span><strong>50 prompts</strong> de Claude: anuncios, ganchos, guiones y objeciones</span></div>
+      <div><span class="num">04</span><span><strong>Públicos</strong> para fitness: intereses, similares y retargeting</span></div>
+      <div><span class="num">05</span><span><strong>Hoja de métricas</strong> en Google Sheets: qué apagar y qué escalar</span></div>
+      <div><span class="num">06</span><span><strong>Checklist</strong> de lanzamiento de 1 página</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="label">Cómo se vende solo</span><h2>El embudo automático</h2><p class="muted">Anuncio → regalo gratis → 5 emails → compra. Ejemplo con 300 USD de anuncios en el primer mes.</p></div>
+    <div class="funnel">
+      <div class="frow"><span class="lbl">Leads (emails)</span><div class="ftrack"><div class="fbar" style="width:100%">~200 personas</div></div></div>
+      <div class="frow"><span class="lbl">Compran el kit</span><div class="ftrack"><div class="fbar range" style="width:5%;--lo:60%">6–10 ventas (3–5 %)</div></div></div>
+    </div>
+    <div class="funnel" style="margin-top:8px">
+      <div class="frow"><span class="lbl">Inversión</span><div class="ftrack"><div class="fbar cost" style="width:66.7%">300 USD</div></div></div>
+      <div class="frow"><span class="lbl">Ingresos</span><div class="ftrack"><div class="fbar range" style="width:100%;--lo:60%">270–450 USD</div></div></div>
+    </div>
+    <p class="note">La meta del primer mes es recuperar lo invertido y aprender qué anuncios funcionan. El negocio se vuelve rentable cuando inviertes solo en lo que ya funcionó y sumas el mini curso de 97 USD. Todas estas cifras son estimaciones de planificación.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="label">Tu entrenamiento de 30 días</span><h2>Plan semana a semana</h2>
+      <div class="progress"><div class="ptrack"><div class="pfill" id="pfill"></div></div><span class="num" id="pcount">0/16</span></div>
+      <p class="muted" style="font-size:.85rem">Marca las tareas a medida que las completas. Se guardan en este navegador.</p>
+    </div>
+    <div class="weeks" id="weeks">
+      <article class="week"><header><span class="label">Semana 1</span><h3>Validar</h3></header>
+        <div class="tasks">
+          <label class="task"><input type="checkbox" id="t1"><span>3 encuestas en historias sobre conseguir clientes</span></label>
+          <label class="task"><input type="checkbox" id="t2"><span>Leer 3–5 grupos de Facebook de entrenadores</span></label>
+          <label class="task"><input type="checkbox" id="t3"><span>Subir el regalo de 10 prompts a MailerLite</span></label>
+          <label class="task"><input type="checkbox" id="t4"><span>Publicar la landing con lista de espera</span></label>
+        </div><div class="goal">Meta: 50 emails</div></article>
+      <article class="week"><header><span class="label">Semana 2</span><h3>Crear</h3></header>
+        <div class="tasks">
+          <label class="task"><input type="checkbox" id="t5"><span>Escribir la guía con ayuda de Claude</span></label>
+          <label class="task"><input type="checkbox" id="t6"><span>Armar la hoja de métricas</span></label>
+          <label class="task"><input type="checkbox" id="t7"><span>Preparar las 3 plantillas de campaña</span></label>
+          <label class="task"><input type="checkbox" id="t8"><span>Subir el kit a Hotmart o Gumroad</span></label>
+        </div><div class="goal">Meta: kit listo para vender</div></article>
+      <article class="week"><header><span class="label">Semana 3</span><h3>Preventa</h3></header>
+        <div class="tasks">
+          <label class="task"><input type="checkbox" id="t9"><span>Activar la secuencia de 5 emails</span></label>
+          <label class="task"><input type="checkbox" id="t10"><span>Precio de lanzamiento por 72 h</span></label>
+          <label class="task"><input type="checkbox" id="t11"><span>Publicar el contenido de lanzamiento</span></label>
+          <label class="task"><input type="checkbox" id="t12"><span>Pedir opiniones a los primeros compradores</span></label>
+        </div><div class="goal">Meta: 10 ventas</div></article>
+      <article class="week"><header><span class="label">Semana 4</span><h3>Automatizar</h3></header>
+        <div class="tasks">
+          <label class="task"><input type="checkbox" id="t13"><span>Campaña: anuncio → regalo → emails</span></label>
+          <label class="task"><input type="checkbox" id="t14"><span>10 USD/día en 2–3 conjuntos de anuncios</span></label>
+          <label class="task"><input type="checkbox" id="t15"><span>Medir costo por lead y conversión</span></label>
+          <label class="task"><input type="checkbox" id="t16"><span>Apagar lo que no funcione</span></label>
+        </div><div class="goal">Meta: recuperar la inversión</div></article>
+    </div>
+  </section>
+
+  <section class="two">
+    <div class="grid">
+      <div class="sec-head"><span class="label">Presupuesto</span><h2>Herramientas</h2></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Para qué</th><th>Herramienta</th><th class="num">Costo</th></tr></thead>
+        <tbody>
+          <tr><td>Vender y entregar</td><td>Hotmart o Gumroad</td><td class="num">~10 % por venta</td></tr>
+          <tr><td>Landing page</td><td>GitHub Pages</td><td class="num">0 USD</td></tr>
+          <tr><td>Emails</td><td>MailerLite</td><td class="num">0 USD</td></tr>
+          <tr><td>Diseño</td><td>Canva</td><td class="num">0–13 USD/mes</td></tr>
+          <tr><td>Contenido</td><td>Claude</td><td class="num">Ya lo usas</td></tr>
+          <tr><td>Dominio (opcional)</td><td>Namecheap</td><td class="num">~12 USD/año</td></tr>
+          <tr class="total"><td>Anuncios de prueba</td><td>Meta Ads</td><td class="num">150–350 USD</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="grid">
+      <div class="sec-head"><span class="label">Qué mirar</span><h2>Métricas</h2></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Métrica</th><th class="num">Objetivo</th></tr></thead>
+        <tbody>
+          <tr><td>Costo por lead (email)</td><td class="num">0,80–2 USD</td></tr>
+          <tr><td>Visitas a la landing que dejan su email</td><td class="num">más de 25 %</td></tr>
+          <tr><td>Apertura de emails</td><td class="num">más de 35 %</td></tr>
+          <tr><td>Leads que compran</td><td class="num">3–5 %</td></tr>
+          <tr><td>ROAS del embudo</td><td class="num">más de 1,5</td></tr>
+          <tr><td>Reembolsos</td><td class="num">menos de 5 %</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="label">Prevención de lesiones</span><h2>Riesgos y cómo cubrirlos</h2></div>
+    <div class="risks">
+      <div class="risk"><b>Que nadie compre</b><p>Validas en la semana 1 con lista de espera, antes de crear el kit completo.</p></div>
+      <div class="risk"><b>Cambios en Meta Ads</b><p>Actualizas el kit dos veces al año y lo usas como excusa para relanzar.</p></div>
+      <div class="risk"><b>Cursos genéricos más baratos</b><p>Tu diferencia es el nicho fitness y los prompts de IA.</p></div>
+      <div class="risk"><b>Políticas de anuncios de salud</b><p>Sin fotos de antes y después ni frases sobre el cuerpo. El prompt 9 del regalo lo revisa.</p></div>
+      <div class="risk"><b>Prometer de más</b><p>Muestras el proceso y casos reales con permiso, nunca ingresos garantizados.</p></div>
+    </div>
+  </section>
+
+  <footer>Clientes en Piloto Automático · Plan de negocio. Las cifras son estimaciones para planificar y dependen de la ejecución y del mercado.</footer>
+</div>
+
+<script>
+  (function () {
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('#weeks input[type=checkbox]'));
+    var KEY = 'cpa-plan-tareas';
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+    function update() {
+      var done = boxes.filter(function (b) { return b.checked; }).length;
+      document.getElementById('pfill').style.width = (done / boxes.length * 100) + '%';
+      document.getElementById('pcount').textContent = done + '/' + boxes.length;
+    }
+    boxes.forEach(function (b) {
+      b.checked = !!saved[b.id];
+      b.addEventListener('change', function () {
+        saved[b.id] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+        update();
+      });
+    });
+    update();
+  })();
+</script>

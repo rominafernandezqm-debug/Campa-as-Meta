@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>10 prompts de IA para anuncios fitness que venden</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Misma identidad que la landing: Inter + acento naranja */
+  :root {
+    --bg: #fbfaf7; --surface: #ffffff; --text: #1b1d1f; --muted: #5c6168;
+    --accent: #e8572a; --accent-dark: #c4431b; --soft: #fdeee8; --border: #e7e3dc;
+    --mono: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", "DejaVu Sans", sans-serif; color: var(--text); background: var(--bg); line-height: 1.55; font-size: 11pt; }
+  .page { width: 210mm; height: 297mm; padding: 20mm 18mm; page-break-after: always; position: relative; overflow: hidden; background: var(--bg); }
+  .page:last-child { page-break-after: auto; }
+  h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+  .eyebrow { font-size: 8.5pt; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-dark); }
+  .foot { position: absolute; bottom: 12mm; left: 18mm; right: 18mm; display: flex; justify-content: space-between; font-size: 8pt; color: var(--muted); border-top: 1px solid var(--border); padding-top: 4mm; }
+
+  /* Portada */
+  .cover { background: var(--text); color: #fbfaf7; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .eyebrow { color: #ffb59c; }
+  .cover h1 { font-size: 44pt; font-weight: 800; letter-spacing: -.02em; margin-top: 10mm; }
+  .cover h1 span { color: var(--accent); }
+  .cover p { font-size: 14pt; color: #cfd2d6; max-width: 140mm; margin-top: 8mm; }
+  .big-num { font-size: 220pt; font-weight: 800; line-height: .8; color: var(--accent); letter-spacing: -.05em; }
+  .cover .brand { font-size: 10pt; color: #a5a9af; }
+
+  /* Intro */
+  .intro h2 { font-size: 24pt; margin: 4mm 0 6mm; }
+  .intro p { max-width: 160mm; margin: 0 0 4mm; }
+  .steps { display: grid; gap: 4mm; margin-top: 8mm; }
+  .step { display: grid; grid-template-columns: 10mm 1fr; gap: 4mm; align-items: start; background: var(--surface); border: 1px solid var(--border); border-radius: 3mm; padding: 5mm; }
+  .step b.n { width: 10mm; height: 10mm; border-radius: 50%; background: var(--soft); color: var(--accent-dark); display: grid; place-items: center; font-size: 11pt; }
+  .tip-box { margin-top: 8mm; background: var(--soft); border-radius: 3mm; padding: 5mm 6mm; }
+  .index { margin-top: 8mm; columns: 2; column-gap: 8mm; font-size: 10pt; padding: 0; list-style: none; }
+  .index li { margin-bottom: 2mm; break-inside: avoid; }
+  .index li span { font-family: var(--mono); color: var(--accent-dark); margin-right: 2mm; }
+
+  /* Prompts: 2 por página */
+  .prompt { display: flex; flex-direction: column; gap: 3mm; }
+  .prompt + .prompt { margin-top: 9mm; padding-top: 9mm; border-top: 1px solid var(--border); }
+  .prompt-head { display: flex; align-items: baseline; gap: 4mm; }
+  .prompt-head .num { font-size: 30pt; font-weight: 800; color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums; }
+  .prompt-head h3 { font-size: 15pt; }
+  .goal { color: var(--muted); font-size: 10pt; margin: 0; }
+  .box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 2mm; padding: 4mm 5mm; font-family: var(--mono); font-size: 8.8pt; line-height: 1.6; white-space: pre-wrap; }
+  .box .ph { background: var(--soft); color: var(--accent-dark); padding: 0 1mm; border-radius: 1mm; }
+  .tip { font-size: 9.5pt; margin: 0; }
+  .tip b { color: var(--accent-dark); }
+
+  /* Cierre */
+  .closing { display: flex; flex-direction: column; justify-content: center; }
+  .closing h2 { font-size: 28pt; margin: 4mm 0 6mm; }
+  .closing ul { padding-left: 5mm; margin: 0 0 8mm; }
+  .closing li { margin-bottom: 2mm; }
+  .cta { display: inline-block; background: var(--accent); color: #fff; font-weight: 800; padding: 5mm 8mm; border-radius: 3mm; text-decoration: none; font-size: 13pt; }
+  .price { font-size: 12pt; margin-top: 5mm; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<section class="page cover">
+  <div>
+    <div class="eyebrow">Guía gratuita · Para entrenadores y coaches de bienestar</div>
+    <h1>Prompts de IA para escribir <span>anuncios fitness que venden</span></h1>
+    <p>Copia, pega y completa. En menos de 30 minutos tienes los textos de tu próxima campaña en Instagram y Facebook.</p>
+  </div>
+  <div class="big-num">10</div>
+  <div class="brand">Clientes en Piloto Automático</div>
+</section>
+
+<!-- INTRO -->
+<section class="page intro">
+  <div class="eyebrow">Antes de empezar</div>
+  <h2>Cómo usar estos prompts</h2>
+  <p>Un prompt es la instrucción que le das a una IA. Estos funcionan con <b>Claude</b> (gratis en claude.ai) y también con otras herramientas de IA.</p>
+  <p>Están ordenados como se arma una campaña: primero entiendes a tu cliente, después creas la oferta, escribes los anuncios y al final mides los resultados.</p>
+
+  <div class="steps">
+    <div class="step"><b class="n">1</b><div><b>Copia el prompt</b> completo en el chat de la IA.</div></div>
+    <div class="step"><b class="n">2</b><div><b>Reemplaza lo que está entre [corchetes]</b> con tus datos: tu servicio, tu ciudad, tu cliente. Cuanto más detalle, mejor el resultado.</div></div>
+    <div class="step"><b class="n">3</b><div><b>Pide ajustes.</b> Si algo no te convence, responde "más corto", "más cercano" o "con más energía". La IA mejora con cada vuelta.</div></div>
+  </div>
+
+  <div class="tip-box"><b>Truco:</b> guarda tus respuestas del prompt #1 en una nota. Vas a pegarlas en casi todos los demás prompts como contexto.</div>
+
+  <ol class="index">
+    <li><span>01</span>Conoce a tu cliente ideal</li>
+    <li><span>02</span>Crea una oferta irresistible</li>
+    <li><span>03</span>Ganchos que detienen el scroll</li>
+    <li><span>04</span>Anuncio completo (fórmula PAS)</li>
+    <li><span>05</span>Anuncio para WhatsApp</li>
+    <li><span>06</span>Guion de reel de 20 segundos</li>
+    <li><span>07</span>Responde objeciones</li>
+    <li><span>08</span>Anuncios de retargeting</li>
+    <li><span>09</span>Revisión de políticas de Meta</li>
+    <li><span>10</span>Analiza tus resultados</li>
+  </ol>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>2</span></div>
+</section>
+
+<!-- PROMPTS 1-2 -->
+<section class="page">
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">01</span><h3>Conoce a tu cliente ideal</h3></div>
+    <p class="goal">Para qué sirve: saber qué le duele y qué desea a tu cliente, con sus propias palabras. Es la base de todos los anuncios.</p>
+<div class="box">Actúa como experta en marketing para negocios de fitness y bienestar.
+Ofrezco <span class="ph">[tu servicio, ej.: entrenamiento personal para mujeres de 30 a 45 años]</span> en <span class="ph">[ciudad / online]</span>.
+
+Describe a mi cliente ideal con:
+1. Sus 5 principales frustraciones con su cuerpo, su energía o su rutina.
+2. Sus 5 deseos más profundos (lo que de verdad quiere sentir).
+3. Las frases exactas que usaría para describir su problema.
+4. Qué intentó antes y por qué no le funcionó.
+5. Qué le impide contratar a alguien como yo.
+
+Usa un lenguaje simple y cotidiano, como hablaría ella.</div>
+    <p class="tip"><b>Consejo:</b> si tienes mensajes reales de clientes, pégalos al final y pide que los use como referencia.</p>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">02</span><h3>Crea una oferta irresistible</h3></div>
+    <p class="goal">Para qué sirve: convertir "clases personalizadas" en algo concreto que la gente quiera probar ya.</p>
+<div class="box">Con este perfil de cliente: <span class="ph">[pega la respuesta del prompt 1]</span>
+
+Propón 5 ofertas de entrada para mi servicio de <span class="ph">[tu servicio]</span>, del tipo "clase de prueba", "reto de 7 días" o "evaluación gratuita".
+Para cada una incluye:
+- Nombre atractivo
+- Qué recibe exactamente
+- Precio sugerido (o gratis) y por qué
+- Resultado realista que puede esperar
+- Por qué es fácil decir que sí
+
+Ordénalas de la más fácil de aceptar a la más rentable para mí.</div>
+    <p class="tip"><b>Consejo:</b> las ofertas con plazo ("7 días", "21 días") convierten mejor que las abiertas.</p>
+  </div>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>3</span></div>
+</section>
+
+<!-- PROMPTS 3-4 -->
+<section class="page">
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">03</span><h3>Ganchos que detienen el scroll</h3></div>
+    <p class="goal">Para qué sirve: los primeros 3 segundos deciden si alguien sigue mirando tu anuncio. Este es el prompt que más diferencia hace.</p>
+<div class="box">Escribe 15 ganchos (primera frase de un anuncio) para promocionar <span class="ph">[tu oferta del prompt 2]</span> a <span class="ph">[tu cliente ideal]</span>.
+
+Usa estos 5 estilos, 3 ganchos por estilo:
+1. Pregunta que toca un dolor
+2. Dato o afirmación sorprendente
+3. "Si te pasa esto..." (identificación)
+4. Error común que comete
+5. Mini historia en una frase
+
+Reglas: máximo 12 palabras, sin promesas exageradas, sin mencionar peso ni partes del cuerpo de forma negativa.</div>
+    <p class="tip"><b>Consejo:</b> elige los 3 que más te gusten y pruébalos en anuncios separados. Deja que los números decidan.</p>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">04</span><h3>Anuncio completo (fórmula PAS)</h3></div>
+    <p class="goal">Para qué sirve: un texto de anuncio que Problema → Agita → Soluciona. Es la fórmula más usada para servicios.</p>
+<div class="box">Escribe 3 versiones de un anuncio para Instagram y Facebook usando la fórmula PAS (Problema, Agitación, Solución).
+
+Servicio: <span class="ph">[tu servicio]</span>
+Oferta: <span class="ph">[tu oferta]</span>
+Cliente: <span class="ph">[resumen del prompt 1]</span>
+Gancho de inicio: <span class="ph">[un gancho del prompt 3]</span>
+Llamado a la acción: <span class="ph">[ej.: "Escríbeme RETO por mensaje"]</span>
+
+Versión 1: corta (menos de 60 palabras).
+Versión 2: media (100 palabras) con emojis moderados.
+Versión 3: larga, en formato de historia personal.
+Tono: cercano, motivador y sin culpa.</div>
+    <p class="tip"><b>Consejo:</b> en Meta Ads, la versión corta suele funcionar mejor con video y la larga con imagen.</p>
+  </div>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>4</span></div>
+</section>
+
+<!-- PROMPTS 5-6 -->
+<section class="page">
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">05</span><h3>Anuncio para mensajes de WhatsApp</h3></div>
+    <p class="goal">Para qué sirve: campañas cuyo objetivo es que te escriban. Ideal para servicios locales y online.</p>
+<div class="box">Crea un anuncio para una campaña de Meta con objetivo "Mensajes" que lleve a WhatsApp.
+
+Servicio: <span class="ph">[tu servicio]</span>  ·  Oferta: <span class="ph">[tu oferta]</span>
+
+Necesito:
+1. Texto principal del anuncio (máx. 80 palabras)
+2. Título (máx. 40 caracteres)
+3. Mensaje de bienvenida automático de WhatsApp
+4. 3 "preguntas frecuentes" sugeridas como botones de inicio
+5. Un guion de respuesta para cuando alguien escriba "info" o "precio", que lleve a agendar una clase de prueba sin sonar a vendedora.</div>
+    <p class="tip"><b>Consejo:</b> responder en menos de 5 minutos multiplica las ventas. Activa las respuestas rápidas en WhatsApp Business.</p>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">06</span><h3>Guion de reel de 20 segundos</h3></div>
+    <p class="goal">Para qué sirve: los videos cortos son el formato más barato en Meta Ads. Este prompt te da el guion y las tomas.</p>
+<div class="box">Escribe 3 guiones de reels de 20 segundos para usar como anuncio de <span class="ph">[tu oferta]</span>.
+
+Para cada guion usa esta tabla:
+| Segundo | Qué se ve (toma) | Qué digo | Texto en pantalla |
+
+Estructura: gancho (0–3 s), problema (3–8 s), solución y prueba (8–16 s), llamado a la acción (16–20 s).
+Que se pueda grabar solo con un celular, en <span class="ph">[gimnasio / casa / parque]</span>, sin edición complicada.</div>
+    <p class="tip"><b>Consejo:</b> graba los 3 el mismo día. Mismo lugar, distinta ropa: parecen 3 videos diferentes.</p>
+  </div>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>5</span></div>
+</section>
+
+<!-- PROMPTS 7-8 -->
+<section class="page">
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">07</span><h3>Responde objeciones</h3></div>
+    <p class="goal">Para qué sirve: tener lista la respuesta a "es caro", "no tengo tiempo" o "lo voy a pensar", para el chat y para tus anuncios.</p>
+<div class="box">Mis clientes potenciales suelen decir estas objeciones antes de contratar <span class="ph">[tu servicio]</span>:
+- "Es caro"
+- "No tengo tiempo"
+- "Ya lo intenté y no me funcionó"
+- "Lo voy a pensar"
+- <span class="ph">[agrega otra que escuches seguido]</span>
+
+Para cada una escribe:
+1. Una respuesta empática para el chat (máx. 3 frases)
+2. Un texto de anuncio corto que resuelva esa objeción antes de que aparezca
+
+Sin presionar ni hacer sentir culpa.</div>
+    <p class="tip"><b>Consejo:</b> el anuncio que responde a "no tengo tiempo" suele ser de los que mejor funcionan en fitness.</p>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">08</span><h3>Anuncios de retargeting</h3></div>
+    <p class="goal">Para qué sirve: volver a impactar a quien ya vio tu perfil o tus videos pero no te escribió. Son los anuncios más rentables.</p>
+<div class="box">Escribe 4 anuncios de retargeting para personas que ya vieron mis videos o visitaron mi perfil, pero no me escribieron.
+
+Servicio: <span class="ph">[tu servicio]</span>  ·  Oferta: <span class="ph">[tu oferta]</span>
+
+1. Testimonio: estructura para presentar el caso de un cliente real <span class="ph">[pega el testimonio]</span>
+2. "Detrás de escena": cómo es una sesión conmigo
+3. Respuesta a la duda más común
+4. Recordatorio con fecha límite <span class="ph">[ej.: cupos hasta el viernes]</span>
+
+Cada uno con menos de 50 palabras y un llamado a la acción claro.</div>
+    <p class="tip"><b>Consejo:</b> crea un público de "personas que vieron el 50 % de tus videos en los últimos 30 días" y muéstrales estos anuncios.</p>
+  </div>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>6</span></div>
+</section>
+
+<!-- PROMPTS 9-10 -->
+<section class="page">
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">09</span><h3>Revisión de políticas de Meta</h3></div>
+    <p class="goal">Para qué sirve: Meta es estricto con los anuncios de salud y fitness. Este prompt te ayuda a evitar rechazos y bloqueos.</p>
+<div class="box">Revisa este anuncio según las políticas publicitarias de Meta para salud, fitness y bienestar:
+
+<span class="ph">[pega tu anuncio]</span>
+
+Señala:
+1. Frases que puedan ser rechazadas (ej.: "¿Tienes sobrepeso?", fotos de antes y después, promesas de resultados en X días, afirmaciones sobre el cuerpo de la persona)
+2. Por qué cada una es un riesgo
+3. Una versión corregida que mantenga la fuerza del mensaje
+
+Al final, dame el anuncio completo ya corregido.</div>
+    <p class="tip"><b>Consejo:</b> habla de lo que la persona va a ganar ("más energía", "rutina que disfrutas") en vez de lo que "tiene mal".</p>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span class="num">10</span><h3>Analiza tus resultados</h3></div>
+    <p class="goal">Para qué sirve: entender qué funcionó y qué no, sin ser experta en métricas.</p>
+<div class="box">Actúa como especialista en Meta Ads. Estos son los resultados de mi campaña de los últimos <span class="ph">[7]</span> días:
+
+<span class="ph">[pega o escribe: anuncio, gasto, alcance, CTR, CPM, costo por resultado, resultados]</span>
+
+Mi objetivo es <span class="ph">[ej.: conseguir mensajes a menos de 2 USD cada uno]</span>.
+
+Dime en lenguaje simple:
+1. Qué anuncio funciona mejor y por qué
+2. Cuáles apagar
+3. Qué cambiar en los que están en el medio (gancho, imagen, público)
+4. Si conviene subir el presupuesto, y cuánto</div>
+    <p class="tip"><b>Consejo:</b> espera al menos 3–4 días (o unos 1.000 impactos por anuncio) antes de sacar conclusiones.</p>
+  </div>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>7</span></div>
+</section>
+
+<!-- CIERRE -->
+<section class="page closing">
+  <div class="eyebrow">¿Y ahora qué?</div>
+  <h2>Ya tienes los textos. Te falta la campaña.</h2>
+  <p style="max-width:150mm">Estos 10 prompts son una parte del <b>Kit "Clientes en Piloto Automático"</b>. El kit completo incluye todo lo que necesitas para lanzar tu primera campaña sin agencia:</p>
+  <ul>
+    <li>Guía paso a paso para configurar tu cuenta de anuncios sin errores</li>
+    <li>3 campañas listas para copiar: leads, WhatsApp y retargeting</li>
+    <li><b>50 prompts</b> de IA (estos 10 y 40 más)</li>
+    <li>Públicos pensados para el nicho fitness</li>
+    <li>Hoja de métricas para saber qué apagar y qué escalar</li>
+  </ul>
+  <div><a class="cta" href="#">Quiero el kit completo →</a></div>
+  <p class="price">Precio de lanzamiento: 37 USD · Garantía de 7 días</p>
+  <div class="foot"><span>Clientes en Piloto Automático</span><span>8</span></div>
+</section>
+
+</body>
+</html>
