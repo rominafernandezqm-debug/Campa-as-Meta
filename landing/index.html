@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clientes en Piloto Automático</title>
+  <meta name="description" content="Kit de Meta Ads + prompts de IA para entrenadores personales y coaches de bienestar que quieren conseguir clientes sin agencia.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --text: #1b1d1f;
+      --muted: #5c6168;
+      --accent: #e8572a;
+      --accent-dark: #c4431b;
+      --soft: #fdeee8;
+      --border: #e7e3dc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+    section { padding: 64px 0; }
+    h1, h2, h3 { line-height: 1.2; margin: 0 0 16px; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; }
+    h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; }
+    p { margin: 0 0 16px; }
+    .muted { color: var(--muted); }
+    .tag {
+      display: inline-block; background: var(--soft); color: var(--accent-dark);
+      font-weight: 600; font-size: .85rem; padding: 6px 12px; border-radius: 999px; margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+      font-weight: 700; padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-size: 1rem;
+    }
+    .btn:hover { background: var(--accent-dark); }
+    .hero { padding-top: 80px; }
+    .hero p.lead { font-size: 1.15rem; max-width: 640px; }
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+    .card h3 { font-size: 1.1rem; }
+    .pain li, .check li { margin-bottom: 10px; }
+    ul { padding-left: 20px; }
+    .price-box {
+      background: var(--surface); border: 2px solid var(--accent); border-radius: 20px;
+      padding: 32px; max-width: 480px; margin: 0 auto; text-align: center;
+    }
+    .price { font-size: 3rem; font-weight: 800; }
+    .old { text-decoration: line-through; color: var(--muted); font-size: 1.3rem; margin-right: 8px; }
+    form { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    input[type=email] {
+      flex: 1 1 240px; padding: 16px; border-radius: 12px; border: 1px solid var(--border);
+      font-size: 1rem; background: var(--surface); color: var(--text);
+    }
+    details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+    summary { font-weight: 600; cursor: pointer; }
+    .alt { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    footer { padding: 32px 0; font-size: .85rem; }
+    .placeholder { border: 2px dashed var(--border); border-radius: 16px; padding: 24px; color: var(--muted); }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #141517; --surface: #1d1f22; --text: #f1efea; --muted: #a5a9af;
+        --soft: #3a2219; --accent: #f06a3e; --accent-dark: #ff8a63; --border: #2e3135;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #141517; --surface: #1d1f22; --text: #f1efea; --muted: #a5a9af;
+      --soft: #3a2219; --accent: #f06a3e; --accent-dark: #ff8a63; --border: #2e3135;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <span class="tag">Para entrenadores personales y coaches de bienestar</span>
+      <h1>Llena tu agenda de clientes con anuncios en Instagram, sin pagar una agencia.</h1>
+      <p class="lead muted">El kit con plantillas de campaña, públicos listos y 50 prompts de IA para que lances tu primera campaña de Meta Ads en un fin de semana, aunque nunca hayas abierto el administrador de anuncios.</p>
+      <a class="btn" href="#oferta">Quiero el kit</a>
+    </div>
+  </header>
+
+  <!-- DOLOR -->
+  <section>
+    <div class="wrap">
+      <h2>¿Te suena esto?</h2>
+      <ul class="pain">
+        <li>Publicas todos los días, pero los "me gusta" no se convierten en clientes.</li>
+        <li>Probaste "promocionar publicación" y sentiste que tiraste el dinero.</li>
+        <li>El administrador de anuncios te parece un tablero de avión.</li>
+        <li>Una agencia te cobra más de lo que ganas con 5 clientes nuevos.</li>
+      </ul>
+      <p><strong>No es tu culpa.</strong> Nadie te enseñó a vender tu servicio online. Para eso armé este kit.</p>
+    </div>
+  </section>
+
+  <!-- QUÉ INCLUYE -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>Qué incluye el kit</h2>
+      <div class="grid">
+        <div class="card"><h3>Guía de inicio paso a paso</h3><p class="muted">Configura el Business Manager, el píxel y tu cuenta de anuncios sin errores ni bloqueos.</p></div>
+        <div class="card"><h3>3 campañas listas para copiar</h3><p class="muted">Captación de leads, mensajes a WhatsApp y retargeting, pensadas para servicios fitness.</p></div>
+        <div class="card"><h3>50 prompts de IA</h3><p class="muted">Textos de anuncios, ganchos para reels, guiones y respuestas a objeciones, listos para usar con Claude.</p></div>
+        <div class="card"><h3>Públicos para el nicho fitness</h3><p class="muted">Intereses, públicos similares y retargeting que ya probé en el sector.</p></div>
+        <div class="card"><h3>Hoja de métricas</h3><p class="muted">Sabrás exactamente cuándo apagar un anuncio y cuándo invertir más.</p></div>
+        <div class="card"><h3>Checklist de lanzamiento</h3><p class="muted">Una página para no olvidarte de nada antes de publicar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section>
+    <div class="wrap">
+      <h2>¿Quién está detrás?</h2>
+      <p>Me dedico a crear y medir campañas en Meta Ads, Google Ads y Analytics, y soy una apasionada del fitness y del bienestar. Uní las dos cosas para ayudar a profesionales como tú a hacer crecer su negocio con estrategia, no con suerte.</p>
+      <!-- TODO: reemplazar por tu foto, tu nombre y 2-3 datos reales de tu experiencia -->
+      <div class="placeholder">Aquí va tu foto y tu historia (nombre, años de experiencia, resultados reales que puedas mostrar).</div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>Lo que dicen quienes ya lo usan</h2>
+      <!-- TODO: agregar solo testimonios REALES de tus primeros compradores, con su permiso -->
+      <div class="placeholder">Espacio para testimonios reales de tus primeros clientes. Pídelos después de las primeras ventas.</div>
+    </div>
+  </section>
+
+  <!-- OFERTA -->
+  <section id="oferta">
+    <div class="wrap">
+      <div class="price-box">
+        <span class="tag">Precio de lanzamiento</span>
+        <h2>Kit "Clientes en Piloto Automático"</h2>
+        <p><span class="old">47 USD</span><span class="price">37 USD</span></p>
+        <ul class="check" style="text-align:left">
+          <li>Acceso inmediato y para siempre</li>
+          <li>Actualizaciones gratis cuando cambie Meta Ads</li>
+          <li>Garantía de 7 días: si no te sirve, te devuelvo tu dinero</li>
+        </ul>
+        <!-- TODO: reemplazar href por el link de pago de Hotmart o Gumroad -->
+        <a class="btn" href="#" style="width:100%">Comprar ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD MAGNET -->
+  <section class="alt">
+    <div class="wrap">
+      <h2>¿Todavía no estás lista? Empieza gratis</h2>
+      <p class="muted">Recibe los <strong>10 prompts de IA para escribir anuncios fitness que venden</strong> directo en tu email.</p>
+      <!-- TODO: conectar el action del formulario a MailerLite -->
+      <form action="#" method="post">
+        <input type="email" name="email" placeholder="Tu mejor email" required aria-label="Email">
+        <button class="btn" type="submit">Enviarme los prompts</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap">
+      <h2>Preguntas frecuentes</h2>
+      <details><summary>¿Necesito experiencia con anuncios?</summary><p class="muted">No. La guía empieza desde cero, con capturas de pantalla de cada paso.</p></details>
+      <details><summary>¿Cuánto tengo que invertir en publicidad?</summary><p class="muted">Puedes empezar a probar con 5 a 10 USD al día. El kit te enseña a no gastar de más.</p></details>
+      <details><summary>¿Necesito pagar Claude?</summary><p class="muted">No. Los prompts funcionan con la versión gratuita de Claude y con otras herramientas de IA.</p></details>
+      <details><summary>¿Sirve si soy nutricionista, instructora de yoga o tengo un gimnasio?</summary><p class="muted">Sí. Las plantillas están pensadas para cualquier servicio de salud y bienestar.</p></details>
+      <details><summary>¿Me garantizas clientes?</summary><p class="muted">Nadie puede garantizarlos con honestidad. Lo que sí te doy es un método probado y las herramientas para aplicarlo bien desde el primer día.</p></details>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap muted">
+      © 2026 Clientes en Piloto Automático · Este sitio no forma parte de Meta Platforms, Inc. ni está respaldado por Meta.
+    </div>
+  </footer>
+
+</body>
+</html>
