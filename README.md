@@ -13,6 +13,8 @@ Negocio digital: un kit de Meta Ads + prompts de IA para entrenadores personales
 | [`plan-visual.html`](plan-visual.html) | El plan de negocio en versión visual, con checklist de 30 días |
 | [`lead-magnet/10-prompts-anuncios-fitness.pdf`](lead-magnet/10-prompts-anuncios-fitness.pdf) | Regalo gratis: 10 prompts de IA (PDF listo para subir a MailerLite) |
 | [`kit/guia-clientes-en-piloto-automatico.pdf`](kit/guia-clientes-en-piloto-automatico.pdf) | Guía principal del kit (30 páginas). Fuente: `kit/guia.html`; regenerar con `node kit/generar-guia.js` |
+| [`kit/50-prompts-clientes-en-piloto-automatico.pdf`](kit/50-prompts-clientes-en-piloto-automatico.pdf) | Biblioteca de 50 prompts del kit (PDF). Versión para copiar: [`kit/prompts.md`](kit/prompts.md) |
+| [`kit/prompts.js`](kit/prompts.js) | Fuente única de los 50 prompts. Tras editarla: `node kit/generar-prompts.js` |
 | [`lead-magnet/10-prompts.html`](lead-magnet/10-prompts.html) | Fuente del PDF. Para regenerarlo: `node lead-magnet/generar-pdf.js` |
 
 ## Antes de publicar la landing
