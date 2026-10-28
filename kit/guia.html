@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guía Clientes en Piloto Automático</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Misma identidad que la landing y el regalo: Inter + acento naranja */
+  :root {
+    --bg: #fbfaf7; --surface: #ffffff; --text: #1b1d1f; --muted: #5c6168;
+    --accent: #e8572a; --accent-dark: #c4431b; --soft: #fdeee8; --border: #e7e3dc;
+    --teal: #1d6b67; --teal-soft: #e3f0ee; --warn: #8a5a00; --warn-soft: #fff4d6;
+    --mono: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+  }
+  @page { size: A4; margin: 18mm 18mm 20mm; }
+  @page :first { margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); }
+  body { margin: 0; font-family: "Inter", "DejaVu Sans", sans-serif; color: var(--text); line-height: 1.6; font-size: 10.5pt; }
+  h1, h2, h3, h4 { line-height: 1.2; margin: 0; text-wrap: balance; }
+  h3 { font-size: 13.5pt; margin: 7mm 0 3mm; break-after: avoid; }
+  h4 { font-size: 11pt; margin: 5mm 0 2mm; break-after: avoid; }
+  p { margin: 0 0 3mm; }
+  ul, ol { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1.4mm; }
+  b, strong { font-weight: 600; }
+  .eyebrow { font-size: 8.5pt; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-dark); }
+  .muted { color: var(--muted); }
+
+  /* Portada */
+  .cover { width: 210mm; height: 297mm; background: var(--text); color: #fbfaf7; padding: 22mm 20mm; display: flex; flex-direction: column; justify-content: space-between; break-after: page; }
+  .cover .eyebrow { color: #ffb59c; }
+  .cover h1 { font-size: 46pt; font-weight: 800; letter-spacing: -.02em; line-height: 1.02; margin-top: 10mm; }
+  .cover h1 span { color: var(--accent); }
+  .cover .sub { font-size: 14pt; color: #cfd2d6; max-width: 145mm; margin-top: 8mm; }
+  .cover ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 3mm; font-size: 11pt; color: #e3e5e8; }
+  .cover ul li::before { content: "→ "; color: var(--accent); font-weight: 800; }
+  .cover .brand { font-size: 10pt; color: #a5a9af; display: flex; justify-content: space-between; }
+
+  /* Índice */
+  .toc { break-after: page; }
+  .toc h2 { font-size: 26pt; margin: 3mm 0 8mm; }
+  .toc ol { list-style: none; padding: 0; display: grid; gap: 0; }
+  .toc li { display: grid; grid-template-columns: 14mm 1fr; padding: 3.2mm 0; border-bottom: 1px solid var(--border); margin: 0; }
+  .toc li span { font-family: var(--mono); color: var(--accent-dark); }
+  .toc li small { display: block; color: var(--muted); font-size: 9pt; }
+
+  /* Capítulos */
+  .chapter { break-before: page; }
+  .ch-head { display: grid; grid-template-columns: auto 1fr; gap: 6mm; align-items: end; border-bottom: 2px solid var(--text); padding-bottom: 5mm; margin-bottom: 6mm; }
+  .ch-head .n { font-size: 54pt; font-weight: 800; line-height: .8; color: var(--accent); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .ch-head h2 { font-size: 22pt; font-weight: 800; letter-spacing: -.01em; }
+  .lead { font-size: 12pt; color: var(--muted); margin-bottom: 5mm; }
+
+  /* Componentes */
+  .path { font-family: var(--mono); font-size: 8.8pt; background: var(--surface); border: 1px solid var(--border); border-radius: 2mm; padding: 2mm 3mm; display: inline-block; margin: 0 0 3mm; color: var(--teal); }
+  .box { border-radius: 2.5mm; padding: 4mm 5mm; margin: 4mm 0; break-inside: avoid; }
+  .box p:last-child, .box ul:last-child { margin-bottom: 0; }
+  .box .t { font-weight: 800; font-size: 9pt; letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 1.5mm; }
+  .tip { background: var(--teal-soft); }
+  .tip .t { color: var(--teal); }
+  .warn { background: var(--warn-soft); }
+  .warn .t { color: var(--warn); }
+  .key { background: var(--soft); }
+  .key .t { color: var(--accent-dark); }
+  .steps { counter-reset: s; list-style: none; padding: 0; }
+  .steps > li { counter-increment: s; display: grid; grid-template-columns: 8mm 1fr; gap: 3mm; margin-bottom: 3mm; break-inside: avoid; }
+  .steps > li::before { content: counter(s); width: 7mm; height: 7mm; border-radius: 50%; background: var(--soft); color: var(--accent-dark); font-weight: 800; font-size: 9pt; display: grid; place-items: center; }
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 9.5pt; break-inside: avoid; background: var(--surface); }
+  th, td { text-align: left; padding: 2.3mm 3mm; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 8pt; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .setup { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 2.5mm; overflow: hidden; margin: 4mm 0; break-inside: avoid; background: var(--surface); }
+  .setup div { padding: 3mm 4mm; border-bottom: 1px solid var(--border); }
+  .setup div:nth-child(odd) { background: var(--bg); font-weight: 600; border-right: 1px solid var(--border); }
+  .setup div:nth-last-child(-n+2) { border-bottom: 0; }
+  .ad { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 2mm; padding: 4mm 5mm; margin: 3mm 0 5mm; font-size: 10pt; break-inside: avoid; }
+  .ad .lbl { font-size: 8pt; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin: 2mm 0 1mm; }
+  .ad .lbl:first-child { margin-top: 0; }
+  .light { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; margin: 4mm 0; break-inside: avoid; }
+  .light div { border-radius: 2.5mm; padding: 4mm; font-size: 9.5pt; }
+  .light b { display: block; font-size: 11pt; margin-bottom: 1.5mm; }
+  .l-red { background: #fde4e1; } .l-red b { color: #a3261a; }
+  .l-yel { background: var(--warn-soft); } .l-yel b { color: var(--warn); }
+  .l-grn { background: #e2f3e8; } .l-grn b { color: #22673e; }
+  .check { list-style: none; padding: 0; }
+  .check li { display: grid; grid-template-columns: 6mm 1fr; gap: 2mm; margin-bottom: 2mm; }
+  .check li::before { content: ""; width: 4mm; height: 4mm; border: 1.5px solid var(--text); border-radius: 1mm; margin-top: 1mm; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .end { break-before: page; }
+  .end h2 { font-size: 26pt; margin: 3mm 0 6mm; }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<section class="cover">
+  <div>
+    <div class="eyebrow">Kit Clientes en Piloto Automático · Guía principal</div>
+    <h1>Tu primera campaña de <span>Meta Ads</span>, paso a paso</h1>
+    <p class="sub">La guía para entrenadores personales y coaches de bienestar que quieren conseguir clientes con anuncios en Instagram y Facebook, sin agencia y sin perder dinero.</p>
+  </div>
+  <ul>
+    <li>Configura tu cuenta sin errores ni bloqueos</li>
+    <li>Instala el píxel y mide lo que importa</li>
+    <li>Lanza 3 campañas probadas para servicios fitness</li>
+    <li>Sabe qué apagar, qué mejorar y cuándo invertir más</li>
+  </ul>
+  <div class="brand"><span>Clientes en Piloto Automático</span><span>Edición 2026</span></div>
+</section>
+
+<!-- ÍNDICE -->
+<section class="toc">
+  <div class="eyebrow">Contenido</div>
+  <h2>Qué vas a aprender</h2>
+  <ol>
+    <li><span>00</span><div>Antes de empezar<small>Cómo usar esta guía y qué necesitas tener a mano</small></div></li>
+    <li><span>01</span><div>Los cimientos<small>Perfil de Instagram que convierte y WhatsApp Business</small></div></li>
+    <li><span>02</span><div>Configura tu portafolio comercial<small>Página, Instagram, cuenta publicitaria y pagos, sin bloqueos</small></div></li>
+    <li><span>03</span><div>El píxel y la medición<small>Conjunto de datos, eventos, dominio y Google Analytics</small></div></li>
+    <li><span>04</span><div>Antes de gastar un dólar<small>Oferta, creativos y políticas de salud</small></div></li>
+    <li><span>05</span><div>Campaña 1: mensajes a WhatsApp<small>La más simple para servicios locales y online</small></div></li>
+    <li><span>06</span><div>Campaña 2: clientes potenciales<small>Formularios y landing para captar datos</small></div></li>
+    <li><span>07</span><div>Campaña 3: retargeting<small>Vuelve a impactar a quien ya te conoce</small></div></li>
+    <li><span>08</span><div>Públicos para el nicho fitness<small>Ubicación, intereses, Advantage+ y similares</small></div></li>
+    <li><span>09</span><div>Métricas: qué mirar y cómo decidir<small>El semáforo para apagar, mejorar o escalar</small></div></li>
+    <li><span>10</span><div>Tus primeros 14 días y la rutina semanal<small>Un plan concreto, día por día</small></div></li>
+    <li><span>11</span><div>Solución de problemas<small>Anuncios rechazados, cuentas restringidas y más</small></div></li>
+    <li><span>12</span><div>Checklist de lanzamiento<small>Una página para revisar antes de publicar</small></div></li>
+  </ol>
+</section>
+
+<!-- 00 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">00</span><h2>Antes de empezar</h2></div>
+  <p class="lead">Esta guía está pensada para que la sigas en orden, con el celular o la computadora al lado, y que al terminar tengas tu primera campaña publicada.</p>
+
+  <h3>Cómo usar esta guía</h3>
+  <ul>
+    <li><b>Hazla en 3 sesiones.</b> Sesión 1: capítulos 1 a 3 (configuración, unas 2 horas). Sesión 2: capítulo 4 (oferta y creativos, unas 2 horas). Sesión 3: la campaña que elijas (1 hora).</li>
+    <li><b>Las rutas en gris</b> te dicen dónde hacer clic. Por ejemplo: <span class="path">Administrador de anuncios › Crear › Interacción</span></li>
+    <li><b>Los recuadros verdes</b> son consejos; <b>los amarillos</b>, errores que conviene evitar.</li>
+    <li><b>Los prompts</b> que se mencionan (P1, P2…) están en el archivo de prompts del kit. Úsalos con Claude para escribir tus textos en minutos.</li>
+  </ul>
+
+  <div class="box warn"><span class="t">Importante</span><p>Meta cambia los nombres de los botones y el orden de los menús con frecuencia. Si algo no aparece exactamente igual, busca la opción con un nombre parecido: la lógica de la campaña no cambia.</p></div>
+
+  <h3>Lo que necesitas tener a mano</h3>
+  <table>
+    <tr><th>Qué</th><th>Para qué</th></tr>
+    <tr><td>Un perfil personal de Facebook real y antiguo</td><td>Es el "dueño" de todo. Los perfiles nuevos o falsos suelen ser bloqueados.</td></tr>
+    <tr><td>Una página de Facebook de tu negocio</td><td>Los anuncios salen a nombre de la página, aunque solo uses Instagram.</td></tr>
+    <tr><td>Cuenta de Instagram profesional (empresa o creador)</td><td>Para anunciar con tu nombre de Instagram.</td></tr>
+    <tr><td>WhatsApp Business con tu número</td><td>Para la campaña de mensajes.</td></tr>
+    <tr><td>Una tarjeta de crédito o débito a tu nombre</td><td>Para pagar los anuncios.</td></tr>
+    <tr><td>Un email del negocio</td><td>Para el portafolio comercial y las notificaciones.</td></tr>
+    <tr><td>Fotos y videos tuyos entrenando o dando clase</td><td>Para los anuncios. Con el celular alcanza.</td></tr>
+  </table>
+
+  <h3>Cuánto dinero necesitas</h3>
+  <p>Para una primera prueba seria recomiendo <b>entre 5 y 10 USD por día durante 14 días</b> (70 a 140 USD en total). Con menos es difícil saber qué funciona; con más, arriesgas dinero antes de aprender.</p>
+  <div class="box key"><span class="t">La idea central</span><p>Los anuncios no son una apuesta: son un experimento. Pruebas pocas cosas a la vez, mides, apagas lo que no funciona y le das más dinero a lo que sí. Esta guía te enseña exactamente ese proceso.</p></div>
+</section>
+
+<!-- 01 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">01</span><h2>Los cimientos</h2></div>
+  <p class="lead">Un anuncio lleva a la gente a tu perfil o a tu WhatsApp. Si lo que encuentran ahí no convence, pagas por visitas que no compran. Arregla esto primero.</p>
+
+  <h3>Tu perfil de Instagram en 5 minutos</h3>
+  <p>Cuando alguien ve tu anuncio, muchas veces entra a tu perfil antes de escribirte. En 3 segundos tiene que entender qué haces, para quién y cómo empezar.</p>
+  <table>
+    <tr><th>Elemento</th><th>Qué poner</th><th>Ejemplo</th></tr>
+    <tr><td>Foto</td><td>Tu cara, con buena luz, sonriendo</td><td>No un logo: la gente compra a personas</td></tr>
+    <tr><td>Nombre</td><td>Tu nombre + palabra clave</td><td>Caro López | Entrenadora personal</td></tr>
+    <tr><td>Bio, línea 1</td><td>Para quién y qué resultado</td><td>Ayudo a mamás ocupadas a recuperar su energía</td></tr>
+    <tr><td>Bio, línea 2</td><td>Cómo / dónde</td><td>Entrenamiento de 40 min · online y en Palermo</td></tr>
+    <tr><td>Bio, línea 3</td><td>Llamado a la acción</td><td>👇 Clase de prueba gratis</td></tr>
+    <tr><td>Enlace</td><td>WhatsApp o tu landing</td><td>wa.me/549XXXXXXXXXX</td></tr>
+    <tr><td>Historias destacadas</td><td>3 a 5, con portadas iguales</td><td>Empieza aquí · Testimonios · Planes · Preguntas</td></tr>
+  </table>
+  <p>Las <b>últimas 9 publicaciones</b> deberían mostrar: tú dando clase, resultados o testimonios de clientes (con permiso), y al menos un post que explique cómo trabajar contigo.</p>
+  <div class="box tip"><span class="t">Consejo</span><p>Fija 3 publicaciones arriba del todo: tu presentación, un testimonio y tu oferta de entrada. Son lo primero que verá alguien que llega desde un anuncio.</p></div>
+
+  <h3>WhatsApp Business bien configurado</h3>
+  <ol class="steps">
+    <li><div>Descarga <b>WhatsApp Business</b> (es gratis y distinta a la app normal) y registra el número de tu negocio.</div></li>
+    <li><div>Completa el <b>perfil de empresa</b>: categoría, descripción, horario, dirección o "online", email y enlace a Instagram.</div></li>
+    <li><div>Activa el <b>mensaje de bienvenida</b>. Ejemplo: "¡Hola! Soy Caro 💪 Gracias por escribir. Contame: ¿qué te gustaría lograr con el entrenamiento? Te respondo en un ratito."</div></li>
+    <li><div>Crea <b>respuestas rápidas</b> para "/precio", "/horarios" y "/prueba". El prompt P5 te las escribe.</div></li>
+    <li><div>Usa <b>etiquetas</b>: "Nuevo lead", "Agendó prueba", "Cliente", "No respondió". Así sabes cuántas personas trae cada campaña.</div></li>
+  </ol>
+  <div class="box warn"><span class="t">Error común</span><p>Responder horas después. En servicios, la mayoría de las ventas se pierden por responder tarde. Durante las campañas, intenta contestar en menos de 15 minutos en tu horario laboral, y que el mensaje de bienvenida diga cuándo respondes.</p></div>
+</section>
+
+<!-- 02 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">02</span><h2>Configura tu portafolio comercial</h2></div>
+  <p class="lead">El portafolio comercial (antes "Business Manager") es la caja donde viven tu página, tu Instagram, tu cuenta publicitaria y tu píxel. Configurarlo bien desde el inicio evita la mayoría de los bloqueos.</p>
+
+  <h3>Paso 1: crea el portafolio</h3>
+  <span class="path">business.facebook.com › Crear un portafolio comercial</span>
+  <ol class="steps">
+    <li><div>Entra con tu perfil personal de Facebook.</div></li>
+    <li><div>Nombre del portafolio: el nombre de tu negocio (ej.: "Caro López Entrenamiento").</div></li>
+    <li><div>Tu nombre real y el email del negocio. Confirma el email que te llega.</div></li>
+  </ol>
+  <div class="box warn"><span class="t">Evita esto</span><p>No crees varios portafolios "por las dudas" ni uses un perfil falso o nuevo para administrarlo. Son de las causas más comunes de restricciones.</p></div>
+
+  <h3>Paso 2: conecta tu página e Instagram</h3>
+  <span class="path">Configuración del negocio › Cuentas › Páginas › Agregar › Agregar una página</span>
+  <p>Elige tu página de Facebook. Después:</p>
+  <span class="path">Configuración del negocio › Cuentas › Cuentas de Instagram › Agregar</span>
+  <p>Inicia sesión con tu Instagram profesional. Comprueba que la página y la cuenta de Instagram estén vinculadas entre sí (desde la configuración de la página, en "Cuentas vinculadas").</p>
+
+  <h3>Paso 3: crea la cuenta publicitaria</h3>
+  <span class="path">Configuración del negocio › Cuentas › Cuentas publicitarias › Agregar › Crear una cuenta publicitaria</span>
+  <div class="setup">
+    <div>Nombre</div><div>Tu negocio + "Ads" (ej.: Caro López Ads)</div>
+    <div>Zona horaria</div><div>La de tu ciudad</div>
+    <div>Moneda</div><div>La de tu tarjeta (USD o moneda local)</div>
+    <div>Uso</div><div>"Mi portafolio comercial"</div>
+  </div>
+  <div class="box warn"><span class="t">No se puede cambiar después</span><p>La zona horaria y la moneda quedan fijas. Si eliges mal, tendrás que crear otra cuenta. Revisa dos veces antes de confirmar.</p></div>
+  <p>Después, asígnate a ti misma como <b>administradora con control total</b> de la cuenta publicitaria.</p>
+
+  <h3>Paso 4: método de pago</h3>
+  <span class="path">Configuración del negocio › Pagos › Agregar método de pago</span>
+  <ul>
+    <li>Usa una tarjeta <b>a tu nombre</b>, con fondos y habilitada para pagos internacionales.</li>
+    <li>Pon un <b>límite de gasto de la cuenta</b> (por ejemplo, 200 USD) mientras aprendes. Así nunca gastas más de lo planeado, aunque te equivoques en un presupuesto.</li>
+    <li>Si tu país lo permite, puedes cargar saldo por adelantado en lugar de pagar con tarjeta después.</li>
+  </ul>
+
+  <h3>Paso 5: seguridad (no lo saltees)</h3>
+  <ol class="steps">
+    <li><div>Activa la <b>autenticación en dos pasos</b> en tu perfil personal y exígela en el portafolio: <span class="path">Configuración del negocio › Centro de seguridad</span></div></li>
+    <li><div>Agrega a <b>una segunda persona de confianza</b> como administradora del portafolio. Si pierdes el acceso a tu perfil, ella puede recuperar todo.</div></li>
+    <li><div>Si te lo pide, <b>verifica tu negocio</b> con documentos. No es obligatorio para empezar, pero da más estabilidad a la cuenta.</div></li>
+  </ol>
+  <div class="box tip"><span class="t">Consejo</span><p>Durante los primeros días, gasta poco y de forma constante. Una cuenta nueva que de golpe gasta mucho, o cambia todo a cada rato, tiene más probabilidades de ser revisada por Meta.</p></div>
+</section>
+
+<!-- 03 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">03</span><h2>El píxel y la medición</h2></div>
+  <p class="lead">El píxel es un pequeño código que le avisa a Meta qué hace la gente en tu web: si dejó su email, si compró. Con esa información, Meta aprende a mostrar tus anuncios a personas parecidas.</p>
+
+  <div class="box key"><span class="t">¿Lo necesito sí o sí?</span><p>Para la campaña de WhatsApp (capítulo 5) no hace falta: Meta mide los mensajes por su cuenta. Para la campaña con landing (capítulo 6) y para el retargeting de visitantes web (capítulo 7), sí. Configúralo igual desde el principio: empieza a juntar datos aunque todavía no lo uses.</p></div>
+
+  <h3>Paso 1: crea el conjunto de datos (píxel)</h3>
+  <span class="path">Administrador de eventos › Conectar orígenes de datos › Web</span>
+  <ol class="steps">
+    <li><div>Nómbralo como tu negocio (ej.: "Caro López Web").</div></li>
+    <li><div>Escribe la dirección de tu web o landing.</div></li>
+    <li><div>Elige cómo instalarlo: si tu web está hecha en una plataforma (Hotmart, Shopify, WordPress, Wix), usa la <b>integración de socio</b>, que es la opción más fácil. Si no, elige <b>instalar el código manualmente</b>.</div></li>
+  </ol>
+
+  <h3>Paso 2: instala el código</h3>
+  <p><b>Si usas una plataforma:</b> busca en su configuración la opción "Píxel de Facebook" o "Meta Pixel" y pega el <b>ID del píxel</b> (un número de 15–16 dígitos que encuentras en el Administrador de eventos).</p>
+  <p><b>Si tienes una landing propia (como la del kit):</b> copia el código base que te da Meta y pégalo justo antes de <code>&lt;/head&gt;</code> en todas las páginas.</p>
+
+  <h3>Paso 3: los eventos que importan</h3>
+  <p>Un <b>evento</b> es una acción que quieres medir. Para un servicio fitness, con estos 4 alcanza:</p>
+  <table>
+    <tr><th>Evento</th><th>Cuándo ocurre</th><th>Dónde se configura</th></tr>
+    <tr><td><b>PageView</b></td><td>Alguien visita cualquier página</td><td>Viene con el código base</td></tr>
+    <tr><td><b>Lead</b></td><td>Deja su email o completa un formulario</td><td>Página de "gracias" del formulario</td></tr>
+    <tr><td><b>Contact</b></td><td>Hace clic en el botón de WhatsApp</td><td>En el botón (con la herramienta de configuración de eventos)</td></tr>
+    <tr><td><b>Purchase</b></td><td>Compra (si vendes online)</td><td>Página de confirmación de pago o integración de la plataforma</td></tr>
+  </table>
+  <p>La forma más fácil de crearlos sin programar es la <b>herramienta de configuración de eventos</b>:</p>
+  <span class="path">Administrador de eventos › tu conjunto de datos › Configuración › Abrir herramienta de configuración de eventos</span>
+  <p>Se abre tu web y puedes marcar con clics "este botón = Contact" o "esta página = Lead".</p>
+
+  <h3>Paso 4: comprueba que funciona</h3>
+  <span class="path">Administrador de eventos › tu conjunto de datos › Probar eventos</span>
+  <p>Abre tu web desde ahí, deja tu email y toca el botón de WhatsApp. En unos segundos deberías ver los eventos aparecer. Si no aparecen, el código no está bien instalado.</p>
+
+  <h3>Paso 5: verifica tu dominio</h3>
+  <span class="path">Configuración del negocio › Seguridad de la marca › Dominios › Agregar</span>
+  <p>Si tienes un dominio propio, verifícalo (Meta te da un código para tu proveedor de dominio). Demuestra que la web es tuya y mejora la medición.</p>
+
+  <h3>Paso 6: etiqueta tus enlaces para Google Analytics</h3>
+  <p>Si usas Google Analytics 4, agrega <b>parámetros UTM</b> a los enlaces de tus anuncios para saber exactamente qué campaña trajo cada visita. En el anuncio, en "Parámetros de URL", pega:</p>
+  <p><span class="path">utm_source=meta&amp;utm_medium=paid&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}</span></p>
+  <p>Meta reemplaza automáticamente lo que está entre llaves por el nombre de tu campaña y de tu anuncio.</p>
+
+  <div class="box warn"><span class="t">Negocios de salud y bienestar</span><p>Meta puede clasificar algunas cuentas de salud y bienestar con restricciones especiales, que limitan el uso de ciertos eventos (por ejemplo, optimizar por compras) o de algunos datos del píxel. Si te pasa, optimiza por <b>clientes potenciales</b> o <b>mensajes</b>, que suelen seguir disponibles, y revisa los avisos del Administrador de eventos.</p></div>
+</section>
+
+<!-- 04 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">04</span><h2>Antes de gastar un dólar</h2></div>
+  <p class="lead">La mayoría de las campañas fallan por la oferta o por el creativo, no por la configuración. Este capítulo es el que más dinero te va a ahorrar.</p>
+
+  <h3>1. Una oferta de entrada clara</h3>
+  <p>Nadie contrata 3 meses de entrenamiento por un anuncio. Lo que sí hace la gente es dar un primer paso pequeño y sin riesgo. Ese paso es tu <b>oferta de entrada</b>:</p>
+  <table>
+    <tr><th>Oferta</th><th>Ideal para</th><th>Por qué funciona</th></tr>
+    <tr><td>Clase de prueba gratis</td><td>Entrenamiento presencial, gimnasios</td><td>Cero riesgo; te conoce en persona</td></tr>
+    <tr><td>Evaluación o llamada de 20 min</td><td>Coaching online, nutrición</td><td>Personalizada; tú cierras la venta en la llamada</td></tr>
+    <tr><td>Reto de 7 días (gratis o bajo costo)</td><td>Online, grupos</td><td>Tiene un final concreto y genera comunidad</td></tr>
+    <tr><td>Primer mes con descuento</td><td>Clientes que ya te conocen (retargeting)</td><td>Empujón para decidir</td></tr>
+  </table>
+  <p>Usa el prompt <b>P2</b> para crear 5 versiones de tu oferta y quédate con la que tenga el nombre más concreto.</p>
+  <div class="box tip"><span class="t">Fórmula de oferta</span><p><b>[Qué]</b> + <b>[para quién]</b> + <b>[en cuánto tiempo]</b> + <b>[sin qué]</b>. Ejemplo: "Reto de 7 días para mamás que quieren volver a entrenar, con rutinas de 20 minutos en casa y sin equipamiento."</p></div>
+
+  <h3>2. Creativos que detienen el scroll</h3>
+  <p>El creativo (la imagen o el video) es lo que más influye en el resultado. No necesitas producción profesional: los anuncios que parecen contenido normal de Instagram suelen funcionar mejor que los muy producidos.</p>
+  <table>
+    <tr><th>Formato</th><th>Medidas</th><th>Úsalo para</th></tr>
+    <tr><td>Video vertical (Reels, Historias)</td><td class="num">1080 × 1920 (9:16)</td><td>El formato principal. 15–30 segundos.</td></tr>
+    <tr><td>Imagen o video de feed</td><td class="num">1080 × 1350 (4:5)</td><td>Testimonios, ofertas, carruseles.</td></tr>
+    <tr><td>Carrusel</td><td class="num">1080 × 1080 o 1080 × 1350</td><td>Explicar un proceso o mostrar varios resultados.</td></tr>
+  </table>
+  <h4>5 ideas de video que funcionan en fitness</h4>
+  <ol>
+    <li><b>Tú hablando a cámara</b>: "Si tienes más de 35 y no encuentras tiempo para entrenar, mira esto…" (guion con el prompt P6).</li>
+    <li><b>Una clase real</b>, con texto encima que explique la oferta.</li>
+    <li><b>Testimonio</b> de un cliente (grabado con su celular, con permiso).</li>
+    <li><b>"Un día conmigo"</b>: detrás de escena de tu trabajo.</li>
+    <li><b>Mito vs. realidad</b>: "No necesitas entrenar 2 horas por día".</li>
+  </ol>
+  <div class="box tip"><span class="t">Regla de los 3 segundos</span><p>Lo que pasa en los primeros 3 segundos decide si alguien sigue mirando. Empieza con movimiento, una pregunta o un texto grande en pantalla, nunca con un logo ni con "Hola, soy…". Los ganchos del prompt P3 están hechos para esto.</p></div>
+
+  <h3>3. Las políticas de Meta para salud y fitness</h3>
+  <p>Meta rechaza anuncios que hacen sentir mal a las personas por su cuerpo o que prometen resultados exagerados. Un rechazo no es grave, pero muchos rechazos seguidos pueden restringir tu cuenta.</p>
+  <div class="two">
+    <div class="box warn" style="margin:0"><span class="t">Evita</span><ul>
+      <li>Fotos de antes y después</li>
+      <li>"¿Tienes sobrepeso?" o "¿Odias tu panza?"</li>
+      <li>"Baja 10 kilos en 30 días"</li>
+      <li>Primeros planos de partes del cuerpo</li>
+      <li>Hablar de enfermedades o medicamentos</li>
+    </ul></div>
+    <div class="box tip" style="margin:0"><span class="t">Usa en cambio</span><ul>
+      <li>Personas entrenando y disfrutando</li>
+      <li>"¿Quieres sentirte con más energía?"</li>
+      <li>"Una rutina que puedes sostener"</li>
+      <li>Testimonios sobre cómo se sienten</li>
+      <li>Hablar de hábitos, fuerza y bienestar</li>
+    </ul></div>
+  </div>
+  <p style="margin-top:4mm">Antes de publicar, pasa cada texto por el prompt <b>P9</b>, que lo revisa según estas reglas y te devuelve una versión corregida.</p>
+</section>
+
+<!-- 05 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">05</span><h2>Campaña 1: mensajes a WhatsApp</h2></div>
+  <p class="lead">La campaña más simple y la que mejor funciona para empezar. El anuncio tiene un botón "Enviar mensaje" que abre un chat contigo en WhatsApp. Tú haces el resto en la conversación.</p>
+
+  <div class="box key"><span class="t">Cuándo usarla</span><p>Si vendes un servicio que se cierra conversando (clases, planes personalizados, nutrición) y puedes responder rápido. Es la recomendada para tu primera campaña.</p></div>
+
+  <h3>Estructura</h3>
+  <p>1 campaña → 1 conjunto de anuncios → 3 anuncios distintos. Así Meta prueba los 3 y le da más presupuesto al que mejor funcione.</p>
+
+  <h3>Nivel 1: la campaña</h3>
+  <span class="path">Administrador de anuncios › Crear › Interacción</span>
+  <div class="setup">
+    <div>Objetivo</div><div>Interacción (algunas cuentas lo muestran dentro de "Clientes potenciales": ambos sirven)</div>
+    <div>Nombre</div><div>WA | Clase de prueba | Oct 2026</div>
+    <div>Categoría especial</div><div>Ninguna (el fitness no es una categoría especial)</div>
+    <div>Presupuesto de campaña (Advantage+)</div><div>Desactivado por ahora: lo pondrás en el conjunto</div>
+  </div>
+
+  <h3>Nivel 2: el conjunto de anuncios</h3>
+  <div class="setup">
+    <div>Ubicación de la conversión</div><div>Apps de mensajes → <b>WhatsApp</b> (elige tu número)</div>
+    <div>Objetivo de rendimiento</div><div>Maximizar el número de conversaciones</div>
+    <div>Presupuesto diario</div><div>5 a 10 USD</div>
+    <div>Calendario</div><div>Empieza mañana a las 00:00, sin fecha de fin</div>
+    <div>Ubicación geográfica</div><div>Presencial: tu ciudad o un radio de 5–15 km de tu estudio. Online: tu país.</div>
+    <div>Edad y sexo</div><div>Los de tu cliente ideal (ej.: mujeres de 28 a 45)</div>
+    <div>Público</div><div>Advantage+ con sugerencias de intereses (ver capítulo 8)</div>
+    <div>Ubicaciones</div><div>Advantage+ (automáticas)</div>
+  </div>
+  <div class="box tip"><span class="t">¿Por qué ubicaciones automáticas?</span><p>Con presupuestos chicos, dejar que Meta elija dónde mostrar el anuncio (Reels, Historias, feed) suele dar un costo menor. Revisa después en el desglose dónde salieron los resultados.</p></div>
+
+  <h3>Nivel 3: los anuncios</h3>
+  <div class="setup">
+    <div>Identidad</div><div>Tu página de Facebook y tu cuenta de Instagram</div>
+    <div>Formato</div><div>Imagen o video único</div>
+    <div>Creativo</div><div>Un video o imagen distinto por anuncio</div>
+    <div>Llamado a la acción</div><div>Enviar mensaje de WhatsApp</div>
+    <div>Mensaje predeterminado</div><div>"¡Hola! Quiero info sobre la clase de prueba 🙌"</div>
+  </div>
+
+  <h4>Ejemplo de anuncio</h4>
+  <div class="ad">
+    <span class="lbl">Texto principal</span>
+    <p>¿Te cuesta encontrar tiempo para entrenar? 🕐<br>Mis clases duran 40 minutos y están pensadas para mujeres con agendas complicadas. Sin gimnasios llenos ni rutinas imposibles.<br>Esta semana tengo 5 lugares para una <b>clase de prueba gratis</b>. Escribime y te cuento cómo es 👇</p>
+    <span class="lbl">Título</span>
+    <p>Clase de prueba gratis · Cupos limitados</p>
+  </div>
+  <p>Crea los otros 2 anuncios cambiando el gancho y el creativo (por ejemplo: uno con video tuyo hablando, uno con una clase real, uno con un testimonio). Los textos te los da el prompt <b>P5</b>.</p>
+
+  <h3>Qué hacer cuando llegan los mensajes</h3>
+  <ol class="steps">
+    <li><div><b>Responde rápido</b> y con una pregunta: "¡Hola! ¿Qué te gustaría lograr?". Nunca empieces mandando el precio.</div></li>
+    <li><div><b>Escucha y conecta</b> lo que te cuenta con tu clase: "Justo trabajo mucho con eso".</div></li>
+    <li><div><b>Propón la clase de prueba</b> con 2 horarios concretos: "¿Te queda mejor el martes a las 19 o el jueves a las 8?".</div></li>
+    <li><div><b>Etiqueta el chat</b> (Nuevo lead / Agendó prueba) para medir cuántas conversaciones terminan en clase.</div></li>
+  </ol>
+</section>
+
+<!-- 06 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">06</span><h2>Campaña 2: clientes potenciales</h2></div>
+  <p class="lead">En lugar de un chat, la persona deja sus datos (nombre, teléfono o email). Sirve cuando no puedes responder mensajes todo el día, o cuando quieres construir una lista de emails.</p>
+
+  <h3>Dos caminos</h3>
+  <table>
+    <tr><th></th><th>Formulario instantáneo</th><th>Tu landing page</th></tr>
+    <tr><td>Qué es</td><td>Un formulario que se abre dentro de Instagram o Facebook</td><td>La persona va a tu web y deja sus datos ahí</td></tr>
+    <tr><td>Costo por lead</td><td>Más bajo</td><td>Más alto</td></tr>
+    <tr><td>Calidad</td><td>Más variable (es muy fácil enviarlo)</td><td>Más alta (hizo más esfuerzo)</td></tr>
+    <tr><td>Necesitas píxel</td><td>No</td><td>Sí (evento Lead)</td></tr>
+    <tr><td>Ideal para</td><td>Clase de prueba, evaluación</td><td>Regalo descargable, reto, lista de espera</td></tr>
+  </table>
+
+  <h3>Configuración</h3>
+  <span class="path">Administrador de anuncios › Crear › Clientes potenciales</span>
+  <div class="setup">
+    <div>Nombre de campaña</div><div>LEAD | Reto 7 días | Oct 2026</div>
+    <div>Ubicación de la conversión</div><div>Formularios instantáneos <i>o</i> Sitio web</div>
+    <div>Objetivo de rendimiento</div><div>Maximizar el número de clientes potenciales</div>
+    <div>Evento (si es sitio web)</div><div>Lead</div>
+    <div>Presupuesto, público, ubicaciones</div><div>Igual que en la campaña 1</div>
+  </div>
+
+  <h3>Cómo armar un buen formulario instantáneo</h3>
+  <ol class="steps">
+    <li><div><b>Tipo de formulario:</b> elige <b>"Mayor intención"</b>. Agrega un paso para que la persona revise sus datos antes de enviar: baja un poco la cantidad, pero sube mucho la calidad.</div></li>
+    <li><div><b>Introducción:</b> una imagen tuya y un título con la oferta: "Reserva tu clase de prueba gratis".</div></li>
+    <li><div><b>Preguntas:</b> nombre y teléfono (vienen completados) + <b>una pregunta personalizada</b> que filtre: "¿Cuál es tu objetivo principal?" con 3–4 opciones.</div></li>
+    <li><div><b>Política de privacidad:</b> el enlace a una página con tu política (puede ser una página simple en tu landing).</div></li>
+    <li><div><b>Pantalla final:</b> "¡Listo! Te escribo por WhatsApp en las próximas 24 horas" + botón a tu Instagram o WhatsApp.</div></li>
+  </ol>
+  <div class="box warn"><span class="t">Los leads no se te envían solos</span><p>Los datos quedan guardados en tu página de Facebook (en el Centro de clientes potenciales o en Meta Business Suite). Revísalos todos los días o conéctalos a MailerLite o a una hoja de Google con una integración. Un lead que contactas a los 3 días ya se olvidó de ti.</p></div>
+
+  <h3>Si usas tu landing</h3>
+  <ul>
+    <li>La promesa del anuncio y el título de la landing tienen que coincidir palabra por palabra.</li>
+    <li>El formulario tiene que verse sin bajar en el celular.</li>
+    <li>Pide solo lo necesario: nombre y email alcanzan.</li>
+    <li>Después del formulario, una <b>página de gracias</b> con el evento <b>Lead</b> y un siguiente paso (seguirte en Instagram, escribirte por WhatsApp).</li>
+  </ul>
+  <div class="box tip"><span class="t">Combinación ganadora</span><p>Anuncio → regalo gratis (como tus 10 prompts o un reto de 7 días) → secuencia de emails automática → oferta. Es el embudo que trabaja mientras duermes.</p></div>
+</section>
+
+<!-- 07 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">07</span><h2>Campaña 3: retargeting</h2></div>
+  <p class="lead">La mayoría de las personas no te escribe la primera vez que te ve. El retargeting le muestra anuncios a quien ya interactuó contigo: vio tus videos, visitó tu perfil o tu web. Suele ser la campaña con el costo por resultado más bajo.</p>
+
+  <div class="box key"><span class="t">Cuándo empezarla</span><p>Cuando ya tengas algo de movimiento: unas 1.000 personas que vieron tus videos o visitaron tu perfil. Si tu Instagram ya tiene actividad, puedes empezar desde el primer día.</p></div>
+
+  <h3>Paso 1: crea los públicos personalizados</h3>
+  <span class="path">Administrador de anuncios › Públicos › Crear público › Público personalizado</span>
+  <table>
+    <tr><th>Origen</th><th>Configuración</th><th>Nombre sugerido</th></tr>
+    <tr><td>Cuenta de Instagram</td><td>Personas que interactuaron con tu cuenta · últimos 60 días</td><td>RT | IG interacción 60d</td></tr>
+    <tr><td>Video</td><td>Personas que vieron al menos el 50 % de tus videos · últimos 30 días</td><td>RT | Video 50% 30d</td></tr>
+    <tr><td>Sitio web</td><td>Todos los visitantes · últimos 30 días</td><td>RT | Web 30d</td></tr>
+    <tr><td>Formulario instantáneo</td><td>Personas que abrieron pero no enviaron el formulario · 30 días</td><td>RT | Form abierto no enviado</td></tr>
+  </table>
+
+  <h3>Paso 2: excluye a quien ya es cliente</h3>
+  <p>Sube tu lista de clientes (nombre, email, teléfono) como público personalizado desde un archivo y <b>exclúyela</b> del retargeting. Nadie quiere ver "clase de prueba gratis" si ya te paga todos los meses.</p>
+
+  <h3>Paso 3: la campaña</h3>
+  <div class="setup">
+    <div>Objetivo</div><div>El mismo que tu campaña principal (Interacción → WhatsApp, o Clientes potenciales)</div>
+    <div>Nombre</div><div>RT | Testimonios | Oct 2026</div>
+    <div>Presupuesto diario</div><div>3 a 5 USD (el público es chico)</div>
+    <div>Público</div><div>Incluir: los públicos RT del paso 1 · Excluir: clientes actuales</div>
+    <div>Advantage+ audience</div><div>Desactivado aquí, para que el anuncio llegue solo a esas personas</div>
+  </div>
+
+  <h3>Paso 4: anuncios distintos a los de la primera vez</h3>
+  <p>Esta persona ya sabe quién eres. No le repitas lo mismo: dale una razón nueva para decidirse.</p>
+  <ul>
+    <li><b>Testimonio:</b> un cliente real contando cómo se siente ahora.</li>
+    <li><b>Detrás de escena:</b> cómo es una clase de verdad, para quitar el miedo.</li>
+    <li><b>Respuesta a la duda más común:</b> "¿Y si no estoy en forma para empezar?"</li>
+    <li><b>Fecha límite real:</b> "Quedan 3 lugares para noviembre".</li>
+  </ul>
+  <p>El prompt <b>P8</b> te escribe los 4 textos.</p>
+  <div class="box warn"><span class="t">Cuidado con la frecuencia</span><p>Como el público es chico, la misma persona puede ver tu anuncio muchas veces. Si la <b>frecuencia</b> pasa de 4–5 en una semana, cambia los creativos o baja el presupuesto.</p></div>
+</section>
+
+<!-- 08 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">08</span><h2>Públicos para el nicho fitness</h2></div>
+  <p class="lead">Hoy Meta encuentra muy bien a las personas correctas si le das un buen anuncio y libertad. Tu trabajo es poner los límites que importan (dónde, edad) y dejar que el algoritmo haga el resto.</p>
+
+  <h3>Los 3 niveles de público</h3>
+  <table>
+    <tr><th>Nivel</th><th>Qué es</th><th>Cuándo usarlo</th></tr>
+    <tr><td><b>Amplio / Advantage+</b></td><td>Solo ubicación y edad; Meta decide el resto. Puedes agregar intereses como "sugerencia".</td><td>Por defecto. Suele funcionar mejor en cuentas nuevas.</td></tr>
+    <tr><td><b>Intereses</b></td><td>Personas interesadas en temas concretos</td><td>Para probar contra el amplio, o si el amplio trae gente poco relevante.</td></tr>
+    <tr><td><b>Similares</b></td><td>Personas parecidas a tus clientes o leads</td><td>Cuando tengas al menos 100 clientes o leads en una lista.</td></tr>
+  </table>
+
+  <h3>Ubicación: el filtro más importante</h3>
+  <ul>
+    <li><b>Servicio presencial:</b> un radio alrededor de tu estudio o gimnasio. 3–5 km en ciudades grandes; 10–15 km en ciudades chicas. Nadie viaja una hora para entrenar.</li>
+    <li><b>Servicio online:</b> tu país, o los países donde se habla tu idioma y pueden pagar tu precio.</li>
+    <li>Elige <b>"Personas que viven en esta ubicación"</b>, no "que estuvieron recientemente" (evita turistas).</li>
+  </ul>
+
+  <h3>Intereses que funcionan en fitness</h3>
+  <p>Escríbelos en el buscador de intereses del conjunto de anuncios. Combina 5 a 10 del mismo tema en un conjunto; no mezcles temas distintos.</p>
+  <table>
+    <tr><th>Tema</th><th>Intereses sugeridos</th></tr>
+    <tr><td>Entrenamiento general</td><td>Entrenamiento personal, Fitness y bienestar, Gimnasio, Entrenamiento con pesas, Entrenamiento en circuito</td></tr>
+    <tr><td>Cuerpo y mente</td><td>Yoga, Pilates, Meditación, Mindfulness, Estiramiento</td></tr>
+    <tr><td>Alimentación</td><td>Alimentación saludable, Nutrición, Recetas saludables, Comida orgánica</td></tr>
+    <tr><td>Deportes</td><td>Running, CrossFit, Ciclismo, Natación, Maratón</td></tr>
+    <tr><td>Estilo de vida</td><td>Bienestar, Desarrollo personal, Maternidad (si tu nicho son mamás)</td></tr>
+  </table>
+  <div class="box warn"><span class="t">No te pases de precisa</span><p>Un público de menos de 50.000 personas suele ser caro. Si al cargar ubicación + edad + intereses el tamaño estimado queda muy chico, quita intereses o amplía el radio.</p></div>
+
+  <h3>Públicos similares (cuando tengas datos)</h3>
+  <span class="path">Públicos › Crear público › Público similar</span>
+  <ol class="steps">
+    <li><div>Origen: tu lista de clientes, o el público de personas que enviaron el formulario, o el evento Lead del píxel.</div></li>
+    <li><div>Ubicación: tu país.</div></li>
+    <li><div>Tamaño: 1 % (los más parecidos). Después prueba 1–3 %.</div></li>
+  </ol>
+
+  <h3>Cómo probar públicos sin desperdiciar dinero</h3>
+  <p>Cambia una sola cosa a la vez. Si quieres saber si los intereses funcionan mejor que el amplio, crea 2 conjuntos <b>con los mismos anuncios</b> y el mismo presupuesto, y solo cambia el público. Después de 5–7 días, compara el costo por resultado.</p>
+</section>
+
+<!-- 09 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">09</span><h2>Métricas: qué mirar y cómo decidir</h2></div>
+  <p class="lead">El Administrador de anuncios muestra decenas de números. Para decidir solo necesitas 6. Anótalos cada semana en la hoja de métricas del kit.</p>
+
+  <h3>Las 6 métricas que importan</h3>
+  <table>
+    <tr><th>Métrica</th><th>Qué te dice</th><th>Referencia orientativa*</th></tr>
+    <tr><td><b>Costo por resultado</b></td><td>Cuánto pagas por cada mensaje o lead. La más importante.</td><td class="num">Mensaje: 0,50–3 USD<br>Lead: 1–5 USD</td></tr>
+    <tr><td><b>CTR (enlace)</b></td><td>Qué porcentaje de quienes ven el anuncio hacen clic. Mide si el creativo atrae.</td><td class="num">más de 1 %</td></tr>
+    <tr><td><b>CPM</b></td><td>Cuánto cuesta mostrar el anuncio 1.000 veces. Depende del país y la competencia.</td><td class="num">Varía mucho por país</td></tr>
+    <tr><td><b>Frecuencia</b></td><td>Cuántas veces vio el anuncio cada persona, en promedio.</td><td class="num">menos de 3 (público nuevo)</td></tr>
+    <tr><td><b>Reproducción de 3 s / impresiones</b></td><td>Qué porcentaje no pasó de largo tu video (el poder del gancho).</td><td class="num">más de 25 %</td></tr>
+    <tr><td><b>Tasa de cierre</b> (la mides tú)</td><td>De cada 10 mensajes o leads, cuántos agendan o compran.</td><td class="num">2–3 de cada 10</td></tr>
+  </table>
+  <p class="muted" style="font-size:9pt">* Son rangos para orientarte, no reglas. Cambian según tu país, tu precio y tu nicho. Lo que importa es tu propio número de referencia, semana a semana.</p>
+
+  <h3>Calcula tu costo máximo por resultado</h3>
+  <p>Antes de lanzar, saca esta cuenta. Te dice cuánto puedes pagar por un mensaje sin perder dinero:</p>
+  <div class="box key"><span class="t">La cuenta</span>
+    <p>Lo que gana con un cliente nuevo (ej.: 60 USD por mes × 3 meses promedio = <b>180 USD</b>)<br>× tasa de cierre (ej.: 2 de cada 10 = <b>0,2</b>)<br>= <b>36 USD</b> es lo máximo que podrías pagar por un mensaje sin perder plata.</p>
+    <p>Para tener ganancia, apunta a <b>un tercio o menos</b> de esa cifra: en este ejemplo, <b>12 USD o menos por mensaje</b>.</p>
+  </div>
+
+  <h3>El semáforo: qué hacer con cada anuncio</h3>
+  <p>Revisa después de <b>3–4 días</b> de funcionamiento, o cuando el anuncio haya gastado al menos <b>el doble de tu costo objetivo</b>. Antes de eso, los números todavía no dicen mucho.</p>
+  <div class="light">
+    <div class="l-red"><b>Apagar</b>Gastó 2 veces tu costo objetivo y no trajo ningún resultado. O el costo por resultado es más del doble del objetivo durante 3 días.</div>
+    <div class="l-yel"><b>Mejorar</b>Costo entre 1 y 2 veces el objetivo. Si el CTR es bajo, cambia el gancho o el creativo. Si el CTR es bueno pero no escriben, revisa la oferta.</div>
+    <div class="l-grn"><b>Escalar</b>Costo igual o menor al objetivo durante 3 días o más. Sube el presupuesto un 20 % cada 3–4 días.</div>
+  </div>
+
+  <div class="box warn"><span class="t">No toques todo el tiempo</span><p>Cada vez que haces un cambio grande (presupuesto, público, creativo), Meta vuelve a empezar su "fase de aprendizaje". Si cambias algo todos los días, la campaña nunca se estabiliza. Mira los números a diario si quieres, pero decide solo cada 3–4 días.</p></div>
+
+  <h3>Usa la IA para analizar</h3>
+  <p>Exporta o copia los números de tus anuncios y pégalos en el prompt <b>P10</b>. Te dice en lenguaje simple qué funciona, qué apagar y qué cambiar.</p>
+</section>
+
+<!-- 10 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">10</span><h2>Tus primeros 14 días y la rutina semanal</h2></div>
+  <p class="lead">Un plan concreto para tu primera campaña, pensado para unas 5 horas por semana.</p>
+
+  <h3>Plan de 14 días</h3>
+  <table>
+    <tr><th>Día</th><th>Qué hacer</th><th>Tiempo</th></tr>
+    <tr><td class="num">1</td><td>Perfil de Instagram y WhatsApp Business (capítulo 1)</td><td class="num">1 h</td></tr>
+    <tr><td class="num">2</td><td>Portafolio comercial, cuenta publicitaria, pagos y seguridad (capítulo 2)</td><td class="num">1 h</td></tr>
+    <tr><td class="num">3</td><td>Píxel y eventos (capítulo 3)</td><td class="num">1 h</td></tr>
+    <tr><td class="num">4</td><td>Define tu oferta con P1 y P2. Escribe ganchos con P3.</td><td class="num">1 h</td></tr>
+    <tr><td class="num">5</td><td>Graba 3 videos (P6) y escribe 3 textos (P4 o P5). Revisa con P9.</td><td class="num">2 h</td></tr>
+    <tr><td class="num">6</td><td>Crea la campaña 1 (capítulo 5) y déjala programada para el día siguiente.</td><td class="num">1 h</td></tr>
+    <tr><td class="num">7–9</td><td>Responde mensajes rápido. <b>No toques la campaña.</b></td><td class="num">15 min/día</td></tr>
+    <tr><td class="num">10</td><td>Primera revisión con el semáforo. Apaga lo rojo.</td><td class="num">30 min</td></tr>
+    <tr><td class="num">11–13</td><td>Responde mensajes. Crea los públicos de retargeting.</td><td class="num">15 min/día</td></tr>
+    <tr><td class="num">14</td><td>Segunda revisión. Escala lo verde, crea un anuncio nuevo para reemplazar lo apagado y lanza el retargeting.</td><td class="num">1 h</td></tr>
+  </table>
+
+  <h3>Tu rutina semanal (20 minutos, el mismo día cada semana)</h3>
+  <ol class="steps">
+    <li><div><b>Anota los números</b> de la semana en la hoja de métricas: gasto, resultados, costo por resultado, CTR, frecuencia, clientes cerrados.</div></li>
+    <li><div><b>Aplica el semáforo</b> a cada anuncio.</div></li>
+    <li><div><b>Sube un creativo nuevo</b> si apagaste alguno o si la frecuencia pasó de 3. Los anuncios se "cansan": un buen anuncio suele durar entre 2 y 6 semanas.</div></li>
+    <li><div><b>Revisa los chats o leads</b> de la semana: ¿qué preguntaron? Esas dudas son ideas para tus próximos anuncios (P7).</div></li>
+    <li><div><b>Decide una sola prueba</b> para la próxima semana (un gancho nuevo, una oferta distinta, otro público).</div></li>
+  </ol>
+
+  <div class="box tip"><span class="t">El ritmo de crecimiento</span><p>Mes 1: aprender qué gancho, qué oferta y qué público funcionan. Mes 2: escalar lo que funcionó y sumar retargeting. Mes 3: probar una segunda oferta o un nuevo formato. La constancia le gana a la intensidad, igual que en el entrenamiento.</p></div>
+</section>
+
+<!-- 11 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">11</span><h2>Solución de problemas</h2></div>
+  <p class="lead">Los problemas más comunes y qué hacer en cada caso.</p>
+
+  <h4>"Mi anuncio fue rechazado"</h4>
+  <p>Lee el motivo en <span class="path">Calidad de la cuenta</span> o en el aviso del anuncio. Casi siempre es por texto o imagen sobre el cuerpo (capítulo 4). Corrige con el prompt P9 y vuelve a publicar como anuncio nuevo. Si crees que es un error, solicita una revisión desde el mismo aviso.</p>
+
+  <h4>"Me restringieron la cuenta publicitaria"</h4>
+  <p>No crees una cuenta nueva (empeora las cosas). Entra a <span class="path">Calidad de la cuenta</span>, lee el motivo y pide una revisión. Ten a mano tu documento de identidad. Mientras tanto, revisa que tu perfil personal tenga la autenticación en dos pasos activa y que no haya pagos rechazados.</p>
+
+  <h4>"La campaña no gasta o casi no tiene alcance"</h4>
+  <ul>
+    <li>El público puede ser muy chico: amplía el radio o quita intereses.</li>
+    <li>El anuncio puede estar "en revisión": espera hasta 24 horas.</li>
+    <li>Revisa que el método de pago esté activo y que no llegaste al límite de gasto.</li>
+  </ul>
+
+  <h4>"Gasta pero no trae resultados"</h4>
+  <ul>
+    <li><b>CTR bajo (menos de 0,8 %):</b> el creativo no atrae. Cambia el gancho de los primeros 3 segundos.</li>
+    <li><b>CTR bueno pero nadie escribe:</b> la oferta no convence, o el paso siguiente es confuso. Simplifica la oferta.</li>
+    <li><b>Visitas a la landing pero no dejan datos:</b> la página no coincide con el anuncio o es lenta en el celular.</li>
+  </ul>
+
+  <h4>"Me escriben, pero no compran"</h4>
+  <ul>
+    <li>¿Respondes rápido? Más de 1 hora de demora baja mucho las ventas.</li>
+    <li>¿Mandas el precio de entrada? Primero pregunta su objetivo, después propone la clase de prueba.</li>
+    <li>¿El público es el correcto? Revisa edad y ubicación de quienes escriben.</li>
+    <li>Usa el prompt P7 para preparar respuestas a las objeciones que más escuchas.</li>
+  </ul>
+
+  <h4>"Los leads del formulario no contestan"</h4>
+  <p>Usa el formulario de "Mayor intención", agrega una pregunta que filtre y contacta a cada lead en menos de 1 hora, primero por WhatsApp.</p>
+
+  <h4>"Los resultados eran buenos y empeoraron"</h4>
+  <p>Mira la frecuencia: si subió de 3–4, el público ya vio demasiado tu anuncio. Sube 1 o 2 creativos nuevos. Si la frecuencia está bien, revisa si cambió algo afuera (feriados, temporada, competencia).</p>
+</section>
+
+<!-- 12 -->
+<section class="chapter">
+  <div class="ch-head"><span class="n">12</span><h2>Checklist de lanzamiento</h2></div>
+  <p class="lead">Imprime esta página o tenla a mano. Revisa cada punto antes de publicar una campaña.</p>
+  <div class="two">
+    <div>
+      <h4>Cuenta y medición</h4>
+      <ul class="check">
+        <li>Portafolio con página e Instagram conectados</li>
+        <li>Zona horaria y moneda correctas</li>
+        <li>Método de pago activo y límite de gasto puesto</li>
+        <li>Autenticación en dos pasos activa</li>
+        <li>Segunda administradora de confianza</li>
+        <li>Píxel instalado y eventos probados</li>
+        <li>UTMs en los enlaces (si usas web)</li>
+      </ul>
+      <h4>Oferta y perfil</h4>
+      <ul class="check">
+        <li>Oferta de entrada clara y concreta</li>
+        <li>Bio de Instagram con llamado a la acción</li>
+        <li>3 publicaciones fijadas</li>
+        <li>WhatsApp Business con bienvenida y respuestas rápidas</li>
+        <li>Costo máximo por resultado calculado</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Anuncios</h4>
+      <ul class="check">
+        <li>3 creativos distintos (formato vertical 9:16)</li>
+        <li>Ganchos fuertes en los primeros 3 segundos</li>
+        <li>Textos revisados con el prompt P9</li>
+        <li>Sin antes y después ni frases sobre el cuerpo</li>
+        <li>Llamado a la acción claro</li>
+        <li>Nombres ordenados (OBJETIVO | Oferta | Mes)</li>
+      </ul>
+      <h4>Campaña</h4>
+      <ul class="check">
+        <li>Objetivo correcto (mensajes o clientes potenciales)</li>
+        <li>Ubicación geográfica correcta</li>
+        <li>Presupuesto de 5–10 USD por día</li>
+        <li>Clientes actuales excluidos (retargeting)</li>
+        <li>Vista previa revisada en el celular</li>
+      </ul>
+      <h4>Después de publicar</h4>
+      <ul class="check">
+        <li>Responder en menos de 15 minutos</li>
+        <li>No tocar nada por 3–4 días</li>
+        <li>Revisión semanal agendada en el calendario</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="end">
+  <div class="eyebrow">Ahora te toca a ti</div>
+  <h2>Tu primera campaña está a 14 días de distancia</h2>
+  <p>No necesitas hacerlo perfecto: necesitas empezar, medir y mejorar. Cada anuncio que apagas te enseña algo, y cada anuncio que funciona es una pieza de un sistema que trabaja por ti.</p>
+  <p>Vuelve a esta guía cada vez que lances una campaña nueva. Usa la hoja de métricas todas las semanas y los prompts cada vez que necesites textos nuevos.</p>
+  <div class="box key" style="margin-top:8mm"><span class="t">El resto de tu kit</span><ul>
+    <li><b>50 prompts de IA</b> para textos, ganchos, guiones y análisis (P1 a P50)</li>
+    <li><b>Plantillas de las 3 campañas</b> para copiar la configuración</li>
+    <li><b>Lista de públicos</b> para el nicho fitness</li>
+    <li><b>Hoja de métricas</b> con el semáforo automático</li>
+  </ul></div>
+  <p class="muted" style="margin-top:10mm; font-size:9pt">Esta guía es material educativo independiente. No está afiliada, respaldada ni patrocinada por Meta Platforms, Inc. Los nombres de menús y funciones pueden cambiar con el tiempo. Los resultados de cada campaña dependen de la oferta, el mercado y la ejecución; las cifras de referencia son orientativas y no garantizan resultados.</p>
+</section>
+
+</body>
+</html>

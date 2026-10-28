@@ -93,7 +93,7 @@ Hola, {nombre}:
 Estas son las 3 dudas que más me llegan sobre el kit:
 
 **1. "No soy buena con la tecnología."**
-La guía tiene capturas de cada paso. Si sabes usar Instagram, puedes hacerlo.
+La guía te dice exactamente dónde hacer clic en cada paso. Si sabes usar Instagram, puedes hacerlo.
 
 **2. "No tengo mucho presupuesto para anuncios."**
 Puedes empezar con 5 a 10 USD al día. La hoja de métricas te ayuda a no desperdiciarlos.

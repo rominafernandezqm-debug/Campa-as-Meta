@@ -51,7 +51,7 @@
 | Premium (opcional) | Revisión 1 a 1 de la cuenta de anuncios (60 min) | 150 USD | Activo, cupos limitados |
 
 ### Contenido del kit principal
-1. **Guía de inicio (PDF, unas 25 páginas):** configurar el Business Manager, el píxel y la cuenta de anuncios sin errores.
+1. **Guía principal (PDF, 30 páginas, ver `kit/`):** configurar el Business Manager, el píxel y la cuenta de anuncios sin errores.
 2. **3 estructuras de campaña listas para copiar:** captación de leads, mensajes a WhatsApp y retargeting.
 3. **50 prompts de Claude:** textos de anuncios, ganchos para reels, respuestas a objeciones y guiones de video.
 4. **Plantilla de públicos** para fitness (intereses, lookalikes, retargeting).
