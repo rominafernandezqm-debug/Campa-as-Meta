@@ -7,6 +7,7 @@ Negocio digital: un kit de Meta Ads + prompts de IA para entrenadores personales
 | Archivo | Qué es |
 |---|---|
 | [`plan-de-negocio.md`](plan-de-negocio.md) | Idea, cliente ideal, oferta, herramientas, plan de 30 días y números |
+| [`plan-automatizaciones-ia.md`](plan-automatizaciones-ia.md) | Plan C: automatizaciones con IA para negocios de bienestar + proyecto sueños, con plan de 90 días |
 | [`landing/index.html`](landing/index.html) | Landing page de venta, lista para publicar |
 | [`contenido/emails-bienvenida.md`](contenido/emails-bienvenida.md) | Secuencia automática de 5 emails |
 | [`contenido/posts-redes.md`](contenido/posts-redes.md) | 2 semanas de contenido para Instagram/TikTok |
